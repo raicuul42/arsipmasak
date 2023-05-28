@@ -1,18 +1,12 @@
 <?php
 
 use App\Models\User;
-
-use Illuminate\Support\Facades\Auth;
-
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
 
-use App\Providers\RouteServiceProvider;
+Route::get('login/{id}', function ($id = null) {
 
-
-
-Route::get('/login/{id}', function ($id = null) {
-
-    Auth::login(User::find($id));
+    auth()->login(User::find($id));
 
     return redirect(RouteServiceProvider::HOME);
 
