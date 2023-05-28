@@ -19,6 +19,7 @@ class ArticleSeeder extends Seeder
                 'body' => 'Laravel menyertakan kemampuan untuk menyemai basis data Anda dengan data menggunakan kelas benih.',
                 'status' => 2,
                 'category_id' => 2,
+                'author_id' => 1,
             ],
             [
                 'title' => $title = 'Apakah Lorem Ipsum itu?',
@@ -27,6 +28,7 @@ class ArticleSeeder extends Seeder
                 'body' => 'Lorem Ipsum adalah contoh teks atau dummy dalam industri percetakan dan penataan huruf atau typesetting',
                 'status' => 2,
                 'category_id' => 1,
+                'author_id' => 1,
             ],
         ])->each(fn ($article) => \App\Models\Article::query()->create($article));
     }

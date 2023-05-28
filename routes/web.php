@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', HomeController::class)->name('home');
 Route::get('dashboard', DashboardController::class)->name('dashboard');
 
-Route::resource('categories', CategoryController::class);
-Route::resource('articles', ArticleController::class);
+Route::resource('categories', CategoryController::class)->scoped(['category' => 'slug']);
+Route::resource('articles', ArticleController::class)->scoped(['article' => 'slug']);
 
 Route::middleware('auth')->group(function () {
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
