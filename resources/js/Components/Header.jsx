@@ -2,7 +2,7 @@ import Container from '@/Components/Container.jsx';
 
 export default function Header({ title, subtitle }) {
     return (
-        <div className="bg-gray-950 px-6 py-24 sm:py-32 lg:px-8">
+        <div className="bg-gray-950 py-24 sm:py-32">
             <Container>
                 <div className="max-w-2xl">
                     <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">{title}</h2>

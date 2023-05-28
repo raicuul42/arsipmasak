@@ -3,7 +3,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { BellIcon } from '@heroicons/react/24/outline';
 import { Dropdown, DropdownLink } from '@/Components/Dropdown.jsx';
 import NavLink from '@/Components/NavLink.jsx';
-import { usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo.jsx';
 
 export default function Navbar() {
@@ -16,7 +16,9 @@ export default function Navbar() {
                         <div className="flex h-16 justify-between">
                             <div className="flex px-2 lg:px-0">
                                 <div className="flex flex-shrink-0 items-center">
-                                    <ApplicationLogo className="h-8 w-auto fill-red-500" />
+                                    <Link href="/">
+                                        <ApplicationLogo className="h-8 w-8 fill-red-500" />
+                                    </Link>
                                 </div>
                                 <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
                                     {/*<NavLink href="/" children="Home" />*/}
@@ -92,11 +94,11 @@ export default function Navbar() {
 
                     <Disclosure.Panel className="lg:hidden">
                         <div className="space-y-1 pb-3 pt-2">
-                            {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800" */}
+                            {/* Current: "bg-cyan-50 border-cyan-500 text-cyan-700", Default: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800" */}
                             <Disclosure.Button
                                 as="a"
                                 href="#"
-                                className="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700"
+                                className="block border-l-4 border-cyan-500 bg-cyan-50 py-2 pl-3 pr-4 text-base font-medium text-cyan-700"
                             >
                                 Dashboard
                             </Disclosure.Button>
@@ -137,7 +139,7 @@ export default function Navbar() {
                                 </div>
                                 <button
                                     type="button"
-                                    className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
                                 >
                                     <span className="sr-only">View notifications</span>
                                     <BellIcon className="h-6 w-6" aria-hidden="true" />

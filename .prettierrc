@@ -7,13 +7,5 @@
     "bracketSpacing": true,
     "arrowParens": "always",
     "printWidth": 120,
-    "endOfLine": "auto",
-    "overrides": [
-        {
-            "files": "*.json",
-            "options": {
-                "tabWidth": 2
-            }
-        }
-    ]
+    "endOfLine": "auto"
 }

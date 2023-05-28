@@ -1,8 +1,8 @@
 import { Head, usePage } from '@inertiajs/react';
-import AppLayout from '@/Layouts/AppLayout.jsx';
-import Container from '@/Components/Container.jsx';
-import ArticleBlock from '@/Pages/Articles/Partials/ArticleBlock.jsx';
-import Header from '@/Components/Header.jsx';
+import AppLayout from '@/Layouts/AppLayout';
+import Container from '@/Components/Container';
+import ArticleBlock from '@/Pages/Articles/Partials/ArticleBlock';
+import Header from '@/Components/Header';
 
 export default function Home() {
     const { data: articles, meta, links } = usePage().props.articles;

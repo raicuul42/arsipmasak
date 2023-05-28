@@ -1,30 +1,32 @@
 {
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build && vite build --ssr",
-    "format": "prettier --write ."
-  },
-  "devDependencies": {
-    "@headlessui/react": "^1.4.2",
-    "@inertiajs/react": "^1.0.0",
-    "@tailwindcss/forms": "^0.5.3",
-    "@tailwindcss/typography": "^0.5.9",
-    "@vitejs/plugin-react": "^3.0.0",
-    "autoprefixer": "^10.4.12",
-    "axios": "^1.1.2",
-    "laravel-vite-plugin": "^0.7.5",
-    "postcss": "^8.4.18",
-    "prettier": "^2.8.8",
-    "prettier-plugin-tailwindcss": "^0.3.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwindcss": "^3.2.1",
-    "vite": "^4.0.0"
-  },
-  "dependencies": {
-    "@heroicons/react": "^2.0.18",
-    "clsx": "^1.2.1"
-  }
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build && vite build --ssr",
+        "format": "prettier --write ."
+    },
+    "devDependencies": {
+        "@headlessui/react": "^1.4.2",
+        "@inertiajs/react": "^1.0.0",
+        "@tailwindcss/forms": "^0.5.3",
+        "@tailwindcss/typography": "^0.5.9",
+        "@vitejs/plugin-react": "^3.0.0",
+        "autoprefixer": "^10.4.12",
+        "axios": "^1.1.2",
+        "laravel-vite-plugin": "^0.7.5",
+        "postcss": "^8.4.18",
+        "prettier": "^2.8.8",
+        "prettier-plugin-tailwindcss": "^0.3.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "tailwindcss": "^3.2.1",
+        "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "@heroicons/react": "^2.0.18",
+        "clipboard": "^2.0.11",
+        "clsx": "^1.2.1",
+        "highlight.js": "^11.8.0"
+    }
 }
