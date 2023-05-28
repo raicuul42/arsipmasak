@@ -9,8 +9,8 @@ export default function Show({ article }) {
             <Head title={article.title} />
 
             <div className="mb-4 border-b border-gray-900 bg-gray-950 py-8 sm:py-32 lg:mb-16">
-                <div className="grid grid-cols-12 gap-32">
-                    <div className="col-span-5 col-start-2 col-end-7 flex h-full flex-col">
+                <div className="grid lg:grid-cols-6 lg:gap-24">
+                    <div className="flex h-full flex-col pl-4 pr-4 lg:col-span-3 lg:col-start-1 lg:pl-28">
                         <div className="flex-1">
                             <h2 className="text-4xl font-bold tracking-tight text-white">{article.title}</h2>
                             <p className="mt-6 text-lg leading-8 text-gray-400">{article.excerpt}</p>
@@ -44,7 +44,7 @@ export default function Show({ article }) {
                             </div>
                         </div>
                     </div>
-                    <div className="col-span-7 col-start-7">
+                    <div className="hidden lg:col-span-3 lg:col-start-4 lg:block">
                         <img
                             className="h-[26rem] w-full rounded-l-2xl object-cover object-center"
                             src={article.thumbnail}
