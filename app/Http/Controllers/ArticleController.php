@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ArticleBlockResource;
 use App\Http\Resources\ArticleSingleResource;
 use App\Models\Article;
+use App\Models\Enums\ArticleStatus;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -15,13 +16,23 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::query()
-            ->select('id', 'title', 'slug', 'excerpt', 'created_at', 'author_id', 'category_id')
+            ->select('id', 'title', 'slug', 'excerpt', 'published_at', 'author_id', 'category_id', 'status')
             ->with('author', 'category')
+            ->whereStatus(ArticleStatus::Published)
             ->latest()
             ->paginate(9);
 
-        return inertia('Home', [
-            'articles' => ArticleBlockResource::collection($articles),
+        return inertia('Articles/Index', [
+            'articles' => ArticleBlockResource::collection($articles)->additional([
+                'meta' => [
+                    'has_pages' => $articles->hasPages(),
+                ],
+            ]),
+
+            'params' => [
+                'title' => 'Latest Articles',
+                'subtitle' => 'The latest articles from our blog.',
+            ],
         ]);
     }
 
@@ -86,8 +97,28 @@ class ArticleController extends Controller
             'all-time' => $articles = Article::query()->with('author', 'category')->popularAllTime()->paginate(9),
         };
 
+        $params = match ($key) {
+            'week' => [
+                'title' => 'Popular This Week',
+                'subtitle' => 'The most popular articles this week.',
+            ],
+            'month' => [
+                'title' => 'Popular This Month',
+                'subtitle' => 'The most popular articles this month.',
+            ],
+            'year' => [
+                'title' => 'Popular This Year',
+                'subtitle' => 'The most popular articles this year.',
+            ],
+            'all-time' => [
+                'title' => 'Popular All Time',
+                'subtitle' => 'The most popular articles of all time.',
+            ],
+        };
+
         return inertia('Articles/Index', [
             'articles' => ArticleBlockResource::collection($articles),
+            'params' => $params,
         ]);
     }
 }
