@@ -21,7 +21,7 @@ class ArticleSingleResource extends JsonResource
             'excerpt' => $this->excerpt,
             'body' => Markdown::convert($this->body)->getContent(),
             'thumbnail' => $this->getPicture('1080x720'),
-            'created_at' => $this->created_at->diffForHumans(),
+            'published_at' => $this->published_at?->diffForHumans(),
             'category' => [
                 'name' => $this->category->name,
                 'href' => route('categories.show', $this->category->slug),

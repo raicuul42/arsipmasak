@@ -1,10 +1,12 @@
+import Image from '@/Components/Image.jsx';
+
 export default function ArticleBlock({ articles }) {
     return (
         <div className="grid grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             {articles.map((article) => (
                 <article key={article.id} className="flex flex-col items-start justify-between">
                     <div className="relative w-full">
-                        <img
+                        <Image
                             src={article.thumbnail}
                             alt=""
                             className="aspect-[16/9] w-full rounded-2xl bg-black object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
@@ -12,13 +14,13 @@ export default function ArticleBlock({ articles }) {
                         <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
                     </div>
                     <div className="max-w-xl">
-                        <div className="mt-8 flex items-center gap-x-4 text-xs">
-                            <time dateTime={article.created_at} className="text-gray-400">
-                                {article.created_at}
+                        <div className="mt-8 flex items-center justify-between gap-x-4 text-xs">
+                            <time dateTime={article.published_at} className="text-gray-400">
+                                {article.published_at}
                             </time>
                             <a
                                 href={article.category.href}
-                                className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-400 hover:bg-gray-100"
+                                className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
                             >
                                 {article.category.name}
                             </a>

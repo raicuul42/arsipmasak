@@ -11,6 +11,8 @@ Route::get('/', HomeController::class)->name('home');
 Route::get('dashboard', DashboardController::class)->name('dashboard');
 
 Route::resource('categories', CategoryController::class)->scoped(['category' => 'slug']);
+
+Route::get('articles/popular/{key}', [ArticleController::class, 'popular'])->name('articles.popular');
 Route::resource('articles', ArticleController::class)->scoped(['article' => 'slug']);
 
 Route::middleware('auth')->group(function () {

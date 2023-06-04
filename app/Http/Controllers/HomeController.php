@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ArticleBlockResource;
 use App\Models\Article;
+use App\Models\Enums\ArticleStatus;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,13 +14,25 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $articles = Article::query()
-            ->with('author', 'category')
-            ->latest()
-            ->paginate(9);
-
         return inertia('Home', [
-            'articles' => ArticleBlockResource::collection($articles),
+            'popularArticles' => ArticleBlockResource::collection(
+                Article::query()
+                    ->select('id', 'title', 'slug', 'excerpt', 'published_at', 'author_id', 'category_id', 'status')
+                    ->with('author', 'category')
+                    ->whereStatus(ArticleStatus::Published)
+                    ->popularThisWeek()
+                    ->limit(3)
+                    ->get()
+            ),
+            'articles' => ArticleBlockResource::collection(
+                Article::query()
+                    ->select('id', 'title', 'slug', 'excerpt', 'published_at', 'author_id', 'category_id', 'status')
+                    ->with('author', 'category')
+                    ->whereStatus(ArticleStatus::Published)
+                    ->latest()
+                    ->limit(6)
+                    ->get()
+            ),
         ]);
     }
 }

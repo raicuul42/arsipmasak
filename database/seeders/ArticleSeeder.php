@@ -18,18 +18,22 @@ class ArticleSeeder extends Seeder
                 'excerpt' => 'Laravel menyertakan kemampuan untuk menyemai basis data Anda dengan data menggunakan kelas benih.',
                 'body' => 'Laravel menyertakan kemampuan untuk menyemai basis data Anda dengan data menggunakan kelas benih.',
                 'status' => 2,
-                'category_id' => 2,
+                'category_id' => 3,
                 'author_id' => 1,
+                'published_at' => now(),
             ],
             [
-                'title' => $title = 'Apakah Lorem Ipsum itu?',
+                'title' => $title = 'Tailwind Responsive Design',
                 'slug' => str($title)->slug(),
-                'excerpt' => 'Lorem Ipsum adalah contoh teks atau dummy dalam industri percetakan dan penataan huruf atau typesetting',
-                'body' => 'Lorem Ipsum adalah contoh teks atau dummy dalam industri percetakan dan penataan huruf atau typesetting',
+                'excerpt' => 'Using responsive utility variants to build adaptive user interfaces.',
+                'body' => 'Every utility class in Tailwind can be applied conditionally at different breakpoints, which makes it a piece of cake to build complex responsive interfaces without ever leaving your HTML.',
                 'status' => 2,
-                'category_id' => 1,
+                'category_id' => 7,
                 'author_id' => 1,
+                'published_at' => now(),
             ],
         ])->each(fn ($article) => \App\Models\Article::query()->create($article));
+
+        \App\Models\Article::factory()->count(30)->create();
     }
 }

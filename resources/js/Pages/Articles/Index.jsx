@@ -4,7 +4,8 @@ import Container from '@/Components/Container';
 import ArticleBlock from '@/Pages/Articles/Partials/ArticleBlock';
 import Header from '@/Components/Header';
 
-export default function Home({ articles, popularArticles }) {
+export default function Index() {
+    const { data: articles, meta, links } = usePage().props.articles;
     return (
         <div>
             <Head title="Read it when you relax" />
@@ -14,17 +15,6 @@ export default function Home({ articles, popularArticles }) {
             />
             <Container>
                 <div className="py-24">
-                    <div className="mb-6">
-                        <h4 className="text-xl font-semibold">Weekly Popular</h4>
-                        <p className="text-gray-500">The most popular articles over the past 7 days</p>
-                    </div>
-                    <ArticleBlock articles={popularArticles} />
-
-                    <div className="mb-6 mt-24">
-                        <h4 className="text-xl font-semibold">Latest Articles</h4>
-                        <p className="text-gray-500">The most recent articles on the site</p>
-                    </div>
-
                     <ArticleBlock articles={articles} />
                 </div>
             </Container>
@@ -32,4 +22,4 @@ export default function Home({ articles, popularArticles }) {
     );
 }
 
-Home.layout = (page) => <AppLayout children={page} />;
+Index.layout = (page) => <AppLayout children={page} />;

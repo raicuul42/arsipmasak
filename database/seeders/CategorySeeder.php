@@ -11,7 +11,7 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        collect(['General', 'PHP', 'Laravel', 'JavaScript', 'Vue.js', 'React.js', 'Angular.js'])->each(function ($category) {
+        collect(['General', 'PHP', 'Laravel', 'JavaScript', 'Vue.js', 'React.js', 'Tailwind CSS'])->each(function ($category) {
             \App\Models\Category::create([
                 'name' => $category,
                 'slug' => str()->slug($category),

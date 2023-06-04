@@ -18,6 +18,8 @@ return new class extends Migration
             $table->text('excerpt')->nullable();
             $table->longText('body');
             $table->integer('status')->default(\App\Models\Enums\ArticleStatus::Draft->value);
+            $table->timestamp('published_at')->nullable();
+            $table->timestamp('scheduled_at')->nullable();
             $table->timestamps();
         });
     }

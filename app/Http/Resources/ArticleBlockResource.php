@@ -20,7 +20,7 @@ class ArticleBlockResource extends JsonResource
             'href' => route('articles.show', $this->slug),
             'excerpt' => $this->excerpt,
             'thumbnail' => $this->getPicture(),
-            'created_at' => $this->created_at->diffForHumans(),
+            'published_at' => $this->published_at?->diffForHumans(),
             'category' => [
                 'name' => $this->category->name,
                 'href' => route('categories.show', $this->category->slug),

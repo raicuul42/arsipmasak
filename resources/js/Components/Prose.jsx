@@ -10,21 +10,17 @@ export default function Prose({ value }) {
         let codeBlocks = document.querySelectorAll('.prose pre');
 
         codeBlocks.forEach((element, key) => {
-            // Add wrapper to code block.
             const wrapper = document.createElement('div');
 
             [].forEach((value) => {
                 wrapper.classList.add(value);
             });
 
-            // @ts-ignore
             element.parentNode.insertBefore(wrapper, element);
 
             wrapper.appendChild(element);
 
-            // Copy to clipboard button.
             let copyToClipboardBtn = document.createElement('button');
-
             copyToClipboardBtn.innerHTML = clipboardIcon;
             copyToClipboardBtn.id = `clipButton-${key}`;
 
@@ -48,12 +44,9 @@ export default function Prose({ value }) {
                 }, 1500);
             });
 
-            // Code Element.
             let codeElement = element.querySelector('code');
 
-            // @ts-ignore
             codeElement.id = `clipText-${key}`;
-            // @ts-ignore
             copyToClipboardBtn.dataset.clipboardTarget = `#${codeElement.id}`;
         });
     }, []);

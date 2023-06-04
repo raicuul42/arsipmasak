@@ -2,6 +2,7 @@ import AppLayout from '@/Layouts/AppLayout.jsx';
 import { Head, Link } from '@inertiajs/react';
 import Container from '@/Components/Container.jsx';
 import Prose from '@/Components/Prose.jsx';
+import Image from '@/Components/Image.jsx';
 
 export default function Show({ article }) {
     return (
@@ -34,18 +35,16 @@ export default function Show({ article }) {
                                 </div>
                                 <div>
                                     <h4>{article.author.name}</h4>
-                                    <div>
-                                        <span className="text-sm text-gray-300">Published on</span>
-                                        <time className="text-sm text-gray-300" dateTime={article.published_at}>
-                                            {article.created_at}
-                                        </time>
+                                    <div className="text-sm text-gray-300">
+                                        <span>Published on</span>{' '}
+                                        <time dateTime={article.published_at}>{article.published_at}</time>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="hidden lg:col-span-3 lg:col-start-4 lg:block">
-                        <img
+                        <Image
                             className="h-[26rem] w-full rounded-l-2xl object-cover object-center"
                             src={article.thumbnail}
                             alt={article.title}

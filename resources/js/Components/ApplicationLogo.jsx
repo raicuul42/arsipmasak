@@ -1,32 +1,21 @@
 export default function ApplicationLogo(props) {
     return (
-        <svg {...props} fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-            <g clipPath="url(#a)">
-                <path
-                    d="M96 0H32A32 32 0 0 0 0 32v64a32 32 0 0 0 32 32h64a32 32 0 0 0 32-32V32A32 32 0 0 0 96 0Z"
-                    fill="url(#b)"
-                />
-                <path
-                    d="M51.6 75C75 75 75 51.6 75 51.6S75 75 98.4 75C75 75 75 98.4 75 98.4S75 75 51.6 75ZM42 29.6S42 42 29.6 42C42 42 42 54.4 42 54.4S42 42 54.4 42C42 42 42 29.6 42 29.6Z"
-                    fill="#818CF8"
-                />
-                <path
-                    d="M51.6 75C75 75 75 51.6 75 51.6S75 75 98.4 75C75 75 75 98.4 75 98.4S75 75 51.6 75ZM42 29.6S42 42 29.6 42C42 42 42 54.4 42 54.4S42 42 54.4 42C42 42 42 29.6 42 29.6Z"
-                    fill="#fff"
-                    stroke="#fff"
-                    strokeWidth="10.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                />
-            </g>
+        <svg {...props} fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+            <path
+                d="M135 0H45A45 45 0 0 0 0 45v90a45 45 0 0 0 45 45h90a45 45 0 0 0 45-45V45a45 45 0 0 0-45-45Z"
+                fill="url(#a)"
+            />
+            <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M90 35.9A54.1 54.1 0 1 0 90 144a54.1 54.1 0 0 0 0-108ZM68.3 80.3a5.8 5.8 0 1 0 8.6 7.8l7.3-8.1v35a5.8 5.8 0 1 0 11.6 0V80l7.3 8a5.8 5.8 0 1 0 8.6-7.7L94.3 61a5.8 5.8 0 0 0-8.6 0L68.3 80.3Z"
+                fill="#fff"
+            />
             <defs>
-                <linearGradient id="b" x1={0} y1={0} x2=".2" y2=".2" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#8E2DE2" />
-                    <stop offset={1} stopColor="#4A00E0" />
+                <linearGradient id="a" x1={0} y1={0} x2=".2" y2=".2" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#60A5FA" />
+                    <stop offset={1} stopColor="#2563EB" />
                 </linearGradient>
-                <clipPath id="a">
-                    <path fill="#fff" d="M0 0h128v128H0z" />
-                </clipPath>
             </defs>
         </svg>
     );

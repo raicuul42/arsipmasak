@@ -52,6 +52,8 @@ return [
         League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension::class,
         League\CommonMark\Extension\TableOfContents\TableOfContentsExtension::class,
         App\Markdown\TableOfContentsSidebarExtension::class,
+        App\Markdown\CalloutExtension::class,
+        App\Markdown\Youtube\YouTubeIframeExtension::class,
     ],
 
     /*
