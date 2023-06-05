@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ArticleBlockResource;
 use App\Http\Resources\ArticleSingleResource;
+use App\Http\Resources\CommentResource;
 use App\Models\Article;
 use App\Models\Enums\ArticleStatus;
 use Illuminate\Http\Request;
@@ -61,6 +62,7 @@ class ArticleController extends Controller
 
         return inertia('Articles/Show', [
             'article' => new ArticleSingleResource($article->load('author', 'category')),
+            'comments' => CommentResource::collection($article->comments()->latest()->get()),
         ]);
     }
 

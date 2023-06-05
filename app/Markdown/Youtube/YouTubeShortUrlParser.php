@@ -5,6 +5,7 @@ namespace App\Markdown\Youtube;
 final class YouTubeShortUrlParser implements YouTubeUrlParserInterface
 {
     private const HOST = 'youtu.be';
+
     private const TIMESTAMP_GET = [
         't',
         'time_continue',

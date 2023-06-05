@@ -21,6 +21,7 @@ class ArticleFactory extends Factory
             'category_id' => rand(1, 7),
             'title' => $title = $this->faker->sentence,
             'slug' => str($title)->slug(),
+            'excerpt' => $this->faker->paragraph,
             'body' => $this->faker->paragraph,
             'published_at' => $this->faker->dateTimeBetween('-1 month'),
             'status' => 2,

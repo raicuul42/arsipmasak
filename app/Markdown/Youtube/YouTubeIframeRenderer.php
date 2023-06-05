@@ -11,8 +11,11 @@ use League\CommonMark\Util\HtmlElement;
 final class YouTubeIframeRenderer implements NodeRendererInterface
 {
     private string $width;
+
     private string $height;
+
     private ?string $wrapperClass;
+
     private bool $allowFullScreen;
 
     /**

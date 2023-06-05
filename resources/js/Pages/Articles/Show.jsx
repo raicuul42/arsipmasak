@@ -3,8 +3,9 @@ import { Head, Link } from '@inertiajs/react';
 import Container from '@/Components/Container.jsx';
 import Prose from '@/Components/Prose.jsx';
 import Image from '@/Components/Image.jsx';
+import CommentBlock from '@/Pages/Articles/Partials/CommentBlock.jsx';
 
-export default function Show({ article }) {
+export default function Show({ article, comments }) {
     return (
         <div>
             <Head title={article.title} />
@@ -57,6 +58,8 @@ export default function Show({ article }) {
                     <div className="hidden w-1/4 lg:block" />
                     <div className="w-full lg:w-2/3">
                         <Prose value={article.body} />
+
+                        <CommentBlock comments={comments} />
                     </div>
                 </div>
             </Container>

@@ -5,7 +5,9 @@ namespace App\Markdown\Youtube;
 final class YouTubeLongUrlParser implements YouTubeUrlParserInterface
 {
     private const HOST = 'www.youtube.com';
+
     private const PATH = '/watch';
+
     private const TIMESTAMP_GET = [
         't',
         'time_continue',

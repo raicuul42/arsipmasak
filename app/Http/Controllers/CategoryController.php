@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ArticleBlockResource;
+use App\Models\Article;
 use App\Models\Category;
+use App\Models\Enums\ArticleStatus;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -36,7 +39,23 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        $articles = Article::query()
+            ->select('id', 'title', 'slug', 'excerpt', 'published_at', 'author_id', 'category_id', 'status')
+            ->whereBelongsTo($category)
+            ->with('author', 'category')
+            ->whereStatus(ArticleStatus::Published)
+            ->latest()
+            ->paginate(9);
+
+        return inertia('Articles/Index', [
+            'articles' => ArticleBlockResource::collection($articles)->additional([
+                'meta' => ['has_pages' => $articles->hasPages()],
+            ]),
+            'params' => [
+                'title' => $category->name,
+                'subtitle' => $category->description ?? 'All articles is all about ' . $category->name,
+            ],
+        ]);
     }
 
     /**

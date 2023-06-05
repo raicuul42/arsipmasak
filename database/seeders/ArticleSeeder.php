@@ -34,6 +34,6 @@ class ArticleSeeder extends Seeder
             ],
         ])->each(fn ($article) => \App\Models\Article::query()->create($article));
 
-        \App\Models\Article::factory()->count(30)->create();
+        \App\Models\Article::factory()->count(30)->hasComments(10)->create();
     }
 }
