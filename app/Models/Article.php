@@ -40,4 +40,9 @@ class Article extends Model implements CanVisit
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function scopeTrending($query)
+    {
+        return $query->withCount('comments')->orderBy('comments_count', 'desc');
+    }
 }

@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/react';
 
 export default function ArticleBlock({ articles }) {
     return (
-        <div className="grid grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-16 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             {articles.map((article) => (
                 <article key={article.id} className="flex flex-col items-start justify-between">
                     <div className="relative w-full">
@@ -14,8 +14,8 @@ export default function ArticleBlock({ articles }) {
                         />
                         <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
                     </div>
-                    <div className="max-w-xl">
-                        <div className="mt-8 flex items-center justify-between gap-x-4 text-xs">
+                    <div className="mt-6 max-w-xl">
+                        <div className="flex items-center justify-between gap-x-4 text-xs">
                             <time dateTime={article.published_at} className="text-gray-400">
                                 {article.published_at}
                             </time>
@@ -27,7 +27,7 @@ export default function ArticleBlock({ articles }) {
                             </Link>
                         </div>
                         <div className="group relative">
-                            <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-300 group-hover:text-white">
+                            <h3 className="mt-3 line-clamp-1 text-lg font-semibold leading-6 text-gray-300 group-hover:text-white">
                                 <Link href={article.href}>
                                     <span className="absolute inset-0" />
                                     {article.title}

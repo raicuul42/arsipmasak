@@ -75,6 +75,12 @@ export default function Navbar() {
                                             <DropdownLink href={route('dashboard')}>Dashboard</DropdownLink>
                                             <DropdownLink href={route('profile.edit')}>Profile</DropdownLink>
                                         </div>
+
+                                        {auth.user?.is_writer && (
+                                            <div className="py-1">
+                                                <DropdownLink href={route('articles.list')}>My Articles</DropdownLink>
+                                            </div>
+                                        )}
                                         <div className="py-1">
                                             <DropdownLink as="button" method="post" href={route('logout')}>
                                                 Log out
@@ -123,8 +129,15 @@ export default function Navbar() {
                                             </div>
                                             <div className="py-1">
                                                 <DropdownLink href={route('dashboard')}>Dashboard</DropdownLink>
-                                                <DropdownLink href={route('profile.edit')}>Profile</DropdownLink>
+                                                <DropdownLink href={route('profile.edit')}>Profiles</DropdownLink>
                                             </div>
+                                            {auth.user?.is_writer && (
+                                                <div className="py-1">
+                                                    <DropdownLink href={route('articles.list')}>
+                                                        My Articles
+                                                    </DropdownLink>
+                                                </div>
+                                            )}
                                             <div className="py-1">
                                                 <DropdownLink as="button" method="post" href={route('logout')}>
                                                     Log out

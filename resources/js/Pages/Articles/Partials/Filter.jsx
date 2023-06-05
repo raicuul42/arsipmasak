@@ -22,6 +22,10 @@ const filters = [
         href: '/articles/popular/all-time',
     },
     {
+        name: 'Trending',
+        href: '/articles/popular/trending',
+    },
+    {
         name: 'Latest',
         href: '/articles',
     },

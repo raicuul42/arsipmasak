@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ArticleBlockResource;
+use App\Http\Resources\ArticleListResource;
 use App\Http\Resources\ArticleSingleResource;
 use App\Http\Resources\CommentResource;
 use App\Models\Article;
@@ -11,6 +12,13 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+    /**
+     * Define the middleware.
+     */
+    public function __construct()
+    {
+        $this->middleware('can:create article')->except(['index', 'show', 'popular']);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -34,6 +42,23 @@ class ArticleController extends Controller
                 'title' => 'Latest Articles',
                 'subtitle' => 'The latest articles from our blog.',
             ],
+        ]);
+    }
+
+    public function list(Request $request)
+    {
+        $articles = Article::query()
+            ->with('author', 'category')
+            ->when(!$request->user()->hasRole('admin'), fn ($query) => $query->whereBelongsTo($request->user(), 'author'))
+            ->latest()
+            ->paginate(12);
+
+        return inertia('Articles/List', [
+            'articles' => ArticleListResource::collection($articles)->additional([
+                'meta' => [
+                    'has_pages' => $articles->hasPages(),
+                ],
+            ]),
         ]);
     }
 
@@ -101,6 +126,7 @@ class ArticleController extends Controller
             'week' => $articles = Article::query()->with('author', 'category')->popularThisWeek()->paginate(9),
             'month' => $articles = Article::query()->with('author', 'category')->popularThisMonth()->paginate(9),
             'year' => $articles = Article::query()->with('author', 'category')->popularThisYear()->paginate(9),
+            'trending' => $articles = Article::query()->with('author', 'category')->trending()->paginate(9),
             'all-time' => $articles = Article::query()->with('author', 'category')->popularAllTime()->paginate(9),
         };
 
@@ -116,6 +142,10 @@ class ArticleController extends Controller
             'year' => [
                 'title' => 'Popular This Year',
                 'subtitle' => 'The most popular articles this year.',
+            ],
+            'trending' => [
+                'title' => 'Trending Articles',
+                'subtitle' => 'The most trending articles.',
             ],
             'all-time' => [
                 'title' => 'Popular All Time',

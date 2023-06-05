@@ -43,7 +43,7 @@ export default function Pagination({ meta, links }) {
                             />
                         ))}
                         <div className="absolute right-1/2 top-1/2 h-[0.5px] w-10 -translate-y-1/2 translate-x-1/2 -rotate-45 rounded-full bg-gray-400" />
-                        <div className="absolute bottom-1 left-[60%] text-sm" children={meta.to} />
+                        <div className="absolute bottom-1 left-[60%] text-sm" children={meta.total} />
                     </div>
                 </div>
                 {links.next ? (
