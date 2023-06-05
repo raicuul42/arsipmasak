@@ -19,7 +19,7 @@ class ArticleListResource extends JsonResource
             'title' => $this->title,
             'href' => route('articles.show', $this->slug),
             'excerpt' => $this->excerpt,
-            'thumbnail' => $this->getPicture(),
+            'comments_count' => $this->comments_count,
             'published_at' => $this->published_at?->diffForHumans(),
             'category' => [
                 'name' => $this->category->name,

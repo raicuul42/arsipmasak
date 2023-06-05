@@ -108,6 +108,7 @@ class ArticleController extends Controller
     {
         $articles = Article::query()
             ->with('author', 'category')
+            ->withCount('comments')
             ->when(! $request->user()->hasRole('admin'), fn ($query) => $query->whereBelongsTo($request->user(), 'author'))
             ->latest()
             ->paginate(12);
