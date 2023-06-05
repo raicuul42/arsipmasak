@@ -1,6 +1,6 @@
 import Image from '@/Components/Image.jsx';
-import { Link, usePage } from '@inertiajs/react';
-import { EyeIcon, PencilIcon, TrashIcon, UserCircleIcon, UserIcon } from '@heroicons/react/24/outline/index.js';
+import { Link } from '@inertiajs/react';
+import { EyeIcon, PencilIcon, TrashIcon, UserCircleIcon } from '@heroicons/react/24/outline/index.js';
 
 export default function ArticleList({ articles }) {
     return (

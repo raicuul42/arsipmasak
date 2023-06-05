@@ -1,4 +1,4 @@
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import AppLayout from '@/Layouts/AppLayout';
 import Container from '@/Components/Container';
 import ArticleBlock from '@/Pages/Articles/Partials/ArticleBlock';
