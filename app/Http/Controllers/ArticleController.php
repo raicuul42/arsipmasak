@@ -19,6 +19,7 @@ class ArticleController extends Controller
     {
         $this->middleware('can:create article')->except(['index', 'show', 'popular']);
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -42,23 +43,6 @@ class ArticleController extends Controller
                 'title' => 'Latest Articles',
                 'subtitle' => 'The latest articles from our blog.',
             ],
-        ]);
-    }
-
-    public function list(Request $request)
-    {
-        $articles = Article::query()
-            ->with('author', 'category')
-            ->when(!$request->user()->hasRole('admin'), fn ($query) => $query->whereBelongsTo($request->user(), 'author'))
-            ->latest()
-            ->paginate(12);
-
-        return inertia('Articles/List', [
-            'articles' => ArticleListResource::collection($articles)->additional([
-                'meta' => [
-                    'has_pages' => $articles->hasPages(),
-                ],
-            ]),
         ]);
     }
 
@@ -118,6 +102,23 @@ class ArticleController extends Controller
     public function destroy(Article $article)
     {
         //
+    }
+
+    public function list(Request $request)
+    {
+        $articles = Article::query()
+            ->with('author', 'category')
+            ->when(! $request->user()->hasRole('admin'), fn ($query) => $query->whereBelongsTo($request->user(), 'author'))
+            ->latest()
+            ->paginate(12);
+
+        return inertia('Articles/List', [
+            'articles' => ArticleListResource::collection($articles)->additional([
+                'meta' => [
+                    'has_pages' => $articles->hasPages(),
+                ],
+            ]),
+        ]);
     }
 
     public function popular($key)

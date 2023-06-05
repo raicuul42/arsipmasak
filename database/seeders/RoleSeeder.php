@@ -32,7 +32,6 @@ class RoleSeeder extends Seeder
             'update article',
         ]);
 
-
         \App\Models\User::find(1)->assignRole('admin');
         \App\Models\User::find(2)->assignRole('writer');
     }
