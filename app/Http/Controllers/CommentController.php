@@ -61,4 +61,17 @@ class CommentController extends Controller
 
         return back();
     }
+
+    public function like(Request $request, Comment $comment)
+    {
+        $like = $comment->likes()->where('user_id', $request->user()->id)->first();
+
+        if ($like) {
+            $like->delete();
+        } else {
+            $comment->likes()->create(['user_id' => $request->user()->id]);
+        }
+
+        return back();
+    }
 }

@@ -17,6 +17,8 @@ class CommentResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
+            'markdown_formatted' => \GrahamCampbell\Markdown\Facades\Markdown::convert($this->body)->getContent(),
+            'likes_count' => $this->likes_count,
             'created_at' => $this->created_at->diffForHumans(),
             'author' => [
                 'id' => $this->author->id,

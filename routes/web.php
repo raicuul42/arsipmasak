@@ -13,6 +13,7 @@ Route::get('dashboard', DashboardController::class)->name('dashboard');
 
 Route::resource('categories', CategoryController::class)->scoped(['category' => 'slug']);
 
+Route::post('comments/like/{comment}', [CommentController::class, 'like'])->name('comments.like');
 Route::post('comments/mark-as-spam/{comment}', [CommentController::class, 'reportSpam'])->name('comments.reportSpam');
 Route::post('comments-reply/{comment}', [CommentController::class, 'reply'])->name('comments.reply');
 Route::resource('{article}/comments', CommentController::class)->only(['store', 'update', 'destroy']);

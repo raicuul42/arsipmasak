@@ -1,6 +1,5 @@
-import Prose from '@/Components/Prose.jsx';
 import { ChatBubbleOvalLeftIcon, HeartIcon, PencilIcon } from '@heroicons/react/24/outline/index.js';
-import { usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import CommentForm from '@/Pages/Articles/Partials/CommentForm.jsx';
 import CommentOptions from '@/Pages/Articles/Partials/CommentOptions.jsx';
@@ -48,7 +47,10 @@ export default function CommentBlock({ comments }) {
                                     {auth.user && <CommentOptions {...{ auth, article, comment }} />}
                                 </div>
                                 <div className="mt-1 leading-relaxed text-gray-400">
-                                    <Prose value={comment.body} />
+                                    <div
+                                        className="prose prose-invert prose-sky prose-pre:bg-gray-800"
+                                        dangerouslySetInnerHTML={{ __html: comment.markdown_formatted }}
+                                    />
 
                                     <div className="mt-4 flex items-center gap-x-6 py-2">
                                         {comment.can_be_replied && (
@@ -63,14 +65,27 @@ export default function CommentBlock({ comments }) {
                                                         submitText: 'Reply',
                                                     });
                                                 }}
-                                                className="flex items-center text-gray-500 hover:text-white focus:outline-none"
+                                                className="flex h-6 w-6 items-center text-gray-500 hover:text-white focus:outline-none"
                                             >
-                                                <ChatBubbleOvalLeftIcon className="h-4 w-4" />
+                                                <ChatBubbleOvalLeftIcon className="h-4 w-4 shrink-0" />
                                                 {comment.children_count > 0 && (
                                                     <span className="ml-2 text-sm">{comment.children_count}</span>
                                                 )}
                                             </button>
                                         )}
+                                        <Link
+                                            as="button"
+                                            method="post"
+                                            preserveScroll
+                                            href={route('comments.like', [comment])}
+                                            className="inline-flex h-6 w-6 items-center justify-center text-gray-500 hover:text-pink-500 focus:outline-none"
+                                        >
+                                            <HeartIcon className="h-4 w-4 shrink-0" />
+                                            {comment.likes_count > 0 && (
+                                                <span className="ml-2 text-sm">{comment.likes_count}</span>
+                                            )}
+                                        </Link>
+
                                         {auth.user?.id === comment.author.id && (
                                             <button
                                                 onClick={() => {
@@ -83,14 +98,11 @@ export default function CommentBlock({ comments }) {
                                                         submitText: 'Update',
                                                     });
                                                 }}
-                                                className="text-gray-500 hover:text-white focus:outline-none"
+                                                className="inline-flex h-6 w-6 items-center text-gray-500 hover:text-white focus:outline-none"
                                             >
                                                 <PencilIcon className="h-4 w-4" />
                                             </button>
                                         )}
-                                        <button className="text-gray-500 hover:text-white focus:outline-none">
-                                            <HeartIcon className="h-4 w-4" />
-                                        </button>
                                     </div>
                                 </div>
                                 <CommentBlock comments={comment.children} />

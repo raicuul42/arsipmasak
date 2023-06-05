@@ -64,7 +64,7 @@ class ArticleController extends Controller
             'article' => new ArticleSingleResource($article->load('author', 'category')),
             'comments' => CommentResource::collection(
                 $article->comments()
-                    ->withCount('children')->where('parent_id', null)
+                    ->withCount(['children', 'likes'])->where('parent_id', null)
                     ->where('spam_reports', '<>', 10)
                     ->get(),
             ),
