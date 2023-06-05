@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('article_id')->constrained()->onDelete('cascade');
             $table->foreignId('parent_id')->nullable()->constrained('comments')->onDelete('cascade');
             $table->text('body');
-            $table->boolean('spam')->default(false);
+            $table->integer('spam_reports')->default(0);
             $table->timestamps();
         });
     }

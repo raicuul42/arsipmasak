@@ -62,7 +62,12 @@ class ArticleController extends Controller
 
         return inertia('Articles/Show', [
             'article' => new ArticleSingleResource($article->load('author', 'category')),
-            'comments' => CommentResource::collection($article->comments()->latest()->get()),
+            'comments' => CommentResource::collection(
+                $article->comments()
+                    ->withCount('children')->where('parent_id', null)
+                    ->where('spam_reports', '<>', 10)
+                    ->get(),
+            ),
         ]);
     }
 

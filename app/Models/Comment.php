@@ -10,6 +10,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Comment extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+
+    protected $casts = [
+        'is_spam' => 'boolean',
+        'last_reported_at' => 'datetime',
+    ];
+
     protected $with = ['author', 'children'];
 
     public function author(): BelongsTo

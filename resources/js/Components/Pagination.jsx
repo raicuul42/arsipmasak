@@ -7,7 +7,6 @@ import {
 import { Link } from '@inertiajs/react';
 
 export default function Pagination({ meta, links }) {
-    console.log(meta);
     return (
         <div className="flex justify-center px-5 pt-8">
             <div className="flex items-center gap-3">

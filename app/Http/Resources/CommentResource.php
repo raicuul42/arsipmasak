@@ -19,10 +19,13 @@ class CommentResource extends JsonResource
             'body' => $this->body,
             'created_at' => $this->created_at->diffForHumans(),
             'author' => [
+                'id' => $this->author->id,
                 'name' => $this->author->name,
                 'gravatar' => $this->author->gravatar(100),
             ],
-            'children' => CommentResource::collection($this->children),
+            'can_be_replied' => $this->parent_id === null,
+            'children_count' => $this->children_count,
+            'children' => self::collection($this->children),
         ];
     }
 }

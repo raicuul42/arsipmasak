@@ -20,8 +20,7 @@ class CommentFactory extends Factory
             'author_id' => $this->faker->randomElement([1, 2, 3]),
             'article_id' => \App\Models\Article::factory(),
             'parent_id' => null,
-            'body' => $this->faker->paragraphs(3, true),
-            'spam' => false,
+            'body' => $this->faker->sentence,
         ];
     }
 }
