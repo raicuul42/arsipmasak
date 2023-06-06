@@ -43,7 +43,7 @@ export default function Form({ page_settings, categories, statuses, article }) {
                 <div className="bg-gray-900 p-4 sm:rounded-lg sm:p-8">
                     <form onSubmit={submit} className="space-y-6">
                         <div className="max-w-xl space-y-6">
-                            <UploadImage label="Thumbnail" onChange={setData} value="picture" model={article} />
+                            <UploadImage label="Thumbnail" onChange={setData} value="thumbnail" model={article} />
                             <div>
                                 <InputLabel htmlFor="title" value="Title" />
                                 <TextInput id="title" type="text" name="title" value={data.title} onChange={onChange} />

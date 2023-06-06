@@ -17,6 +17,7 @@ class ArticleListResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'slug' => $this->slug,
             'href' => route('articles.show', $this->slug),
             'excerpt' => $this->excerpt,
             'comments_count' => $this->comments_count,

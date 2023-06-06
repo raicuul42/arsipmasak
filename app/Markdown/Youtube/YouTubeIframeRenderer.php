@@ -35,7 +35,7 @@ final class YouTubeIframeRenderer implements NodeRendererInterface
     public function render(Node $node, ChildNodeRendererInterface $childRenderer): HtmlElement
     {
         if (! ($node instanceof YouTubeIframe)) {
-            throw new InvalidArgumentException('Incompatible inline type: ' . get_class($node));
+            throw new InvalidArgumentException('Incompatible inline type: '.get_class($node));
         }
 
         $src = "https://www.youtube.com/embed/{$node->getUrl()->getVideoId()}";

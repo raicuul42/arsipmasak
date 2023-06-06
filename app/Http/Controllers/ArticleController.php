@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ArticleRequest;
 use App\Http\Resources\ArticleBlockResource;
 use App\Http\Resources\ArticleListResource;
 use App\Http\Resources\ArticleSingleResource;
@@ -10,6 +11,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\Enums\ArticleStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -75,11 +77,12 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
         $article = $request->user()->articles()->create([
+            'thumbnail' => $request->hasFile('thumbnail') ? $request->file('thumbnail')->store('articles') : null,
             'title' => $title = $request->string('title'),
-            'slug' => str($request->string('title') . '-' . str()->random()),
+            'slug' => str($title.'-'.str()->random()),
             'excerpt' => $request->string('excerpt'),
             'body' => $request->string('body'),
             'status' => $status = $request->enum('status', ArticleStatus::class),
@@ -87,7 +90,7 @@ class ArticleController extends Controller
             'published_at' => $status === ArticleStatus::Published ? now() : null,
         ]);
 
-        return redirect()->route('articles.show', $article->slug);
+        return to_route('articles.show', $article);
     }
 
     /**
@@ -115,13 +118,20 @@ class ArticleController extends Controller
     {
         return inertia('Articles/Form', [
             'article' => $article,
+            'statuses' => collect(ArticleStatus::cases())->map(fn ($status) => [
+                'value' => $status->value,
+                'label' => $status->label($status),
+            ]),
             'categories' => Category::select('id', 'name')->get()->map(fn ($c) => [
                 'value' => $c->id,
                 'label' => $c->name,
             ]),
-            'params' => [
-                'title' => 'Create Article',
-                'subtitle' => 'Create a new article.',
+            'page_settings' => [
+                'method' => 'put',
+                'url' => route('articles.update', $article),
+                'submit_text' => 'Update',
+                'title' => $article->title,
+                'subtitle' => 'Grow your audience by creating the best articles.',
             ],
         ]);
     }
@@ -129,9 +139,31 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Article $article)
+    public function update(ArticleRequest $request, Article $article)
     {
-        //
+        $article->update([
+            'title' => $title = $request->string('title'),
+            'slug' => str($title.'-'.str()->random()),
+            'excerpt' => $request->string('excerpt'),
+            'body' => $request->string('body'),
+            'status' => $status = $request->enum('status', ArticleStatus::class),
+            'category_id' => $request->integer('category'),
+            'published_at' => $status === ArticleStatus::Published ? now() : null,
+        ]);
+
+        if ($request->hasFile('thumbnail')) {
+            if ($article->thumbnail) {
+                Storage::delete($article->thumbnail);
+            }
+
+            $thumbnail = $request->file('thumbnail')->store('articles');
+        } else {
+            $thumbnail = $article->thumbnail;
+        }
+
+        $article->update(['thumbnail' => $thumbnail]);
+
+        return to_route('articles.show', $article);
     }
 
     /**

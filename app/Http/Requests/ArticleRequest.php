@@ -20,6 +20,7 @@ class ArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'thumbnail' => ['nullable', 'image', 'max:2048'], // 2MB
             'title' => ['required', 'min:3', 'max:255'],
             'body' => ['required'],
             'excerpt' => ['required'],

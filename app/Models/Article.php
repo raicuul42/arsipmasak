@@ -15,6 +15,8 @@ class Article extends Model implements CanVisit
 {
     use HasFactory, HasVisits;
 
+    protected $guarded = [];
+
     protected $casts = [
         'status' => ArticleStatus::class,
         'published_at' => 'datetime',
@@ -33,7 +35,7 @@ class Article extends Model implements CanVisit
 
     public function getPicture($size = 400): string
     {
-        return $this->thumbnail !== null ? Storage::url($this->thumbnail) : 'https://placehold.co/' . $size . '/1F2937/FFFFFF/?font=lato&text=No+Image+Available';
+        return $this->thumbnail !== null ? Storage::url($this->thumbnail) : 'https://placehold.co/'.$size.'/1F2937/FFFFFF/?font=lato&text=No+Image+Available';
     }
 
     public function comments(): HasMany

@@ -53,7 +53,7 @@ class CategoryController extends Controller
             ]),
             'params' => [
                 'title' => $category->name,
-                'subtitle' => $category->description ?? 'All articles is all about ' . $category->name,
+                'subtitle' => $category->description ?? 'All articles is all about '.$category->name,
             ],
         ]);
     }
