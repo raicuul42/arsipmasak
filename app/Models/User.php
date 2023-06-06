@@ -68,4 +68,9 @@ class User extends Authenticatable
     {
         return $this->reports()->where('comment_id', $comment->id)->exists();
     }
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class, 'author_id');
+    }
 }

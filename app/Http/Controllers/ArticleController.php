@@ -7,6 +7,7 @@ use App\Http\Resources\ArticleListResource;
 use App\Http\Resources\ArticleSingleResource;
 use App\Http\Resources\CommentResource;
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\Enums\ArticleStatus;
 use Illuminate\Http\Request;
 
@@ -51,7 +52,24 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Articles/Form', [
+            'article' => new Article,
+            'statuses' => collect(ArticleStatus::cases())->map(fn ($status) => [
+                'value' => $status->value,
+                'label' => $status->label($status),
+            ]),
+            'categories' => Category::select('id', 'name')->get()->map(fn ($c) => [
+                'value' => $c->id,
+                'label' => $c->name,
+            ]),
+            'page_settings' => [
+                'method' => 'post',
+                'url' => route('articles.store'),
+                'submit_text' => 'Create',
+                'title' => 'Create new Article',
+                'subtitle' => 'Grow your audience by creating the best articles.',
+            ],
+        ]);
     }
 
     /**
@@ -59,7 +77,17 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $article = $request->user()->articles()->create([
+            'title' => $title = $request->string('title'),
+            'slug' => str($request->string('title') . '-' . str()->random()),
+            'excerpt' => $request->string('excerpt'),
+            'body' => $request->string('body'),
+            'status' => $status = $request->enum('status', ArticleStatus::class),
+            'category_id' => $request->integer('category'),
+            'published_at' => $status === ArticleStatus::Published ? now() : null,
+        ]);
+
+        return redirect()->route('articles.show', $article->slug);
     }
 
     /**
@@ -85,7 +113,17 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        return inertia('Articles/Form', [
+            'article' => $article,
+            'categories' => Category::select('id', 'name')->get()->map(fn ($c) => [
+                'value' => $c->id,
+                'label' => $c->name,
+            ]),
+            'params' => [
+                'title' => 'Create Article',
+                'subtitle' => 'Create a new article.',
+            ],
+        ]);
     }
 
     /**
