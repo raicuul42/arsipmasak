@@ -52,7 +52,7 @@ export default function CommentBlock({ comments }) {
                                         dangerouslySetInnerHTML={{ __html: comment.markdown_formatted }}
                                     />
 
-                                    <div className="mt-4 flex items-center gap-x-6 py-2">
+                                    <div className="mt-4 flex items-center gap-x-4 py-2">
                                         {comment.can_be_replied && (
                                             <button
                                                 onClick={() => {

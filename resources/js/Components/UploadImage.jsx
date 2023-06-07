@@ -3,7 +3,7 @@ import Image from '@/Components/Image';
 import { XMarkIcon } from '@heroicons/react/20/solid/index.js';
 import { PhotoIcon } from '@heroicons/react/24/outline/index.js';
 
-export default function UploadImageCard({ label, value, onChange, model }) {
+export default function UploadImage({ label, value, onChange, model }) {
     const [imagePreview, setImagePreview] = useState('');
     const onFileChange = (e) => {
         onChange(value, e.target.files[0]);

@@ -40,7 +40,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         $articles = Article::query()
-            ->select('id', 'title', 'slug', 'excerpt', 'published_at', 'author_id', 'category_id', 'status')
+            ->select('id', 'title', 'slug', 'excerpt', 'thumbnail', 'published_at', 'author_id', 'category_id', 'status')
             ->whereBelongsTo($category)
             ->with('author', 'category')
             ->whereStatus(ArticleStatus::Published)
@@ -53,7 +53,7 @@ class CategoryController extends Controller
             ]),
             'params' => [
                 'title' => $category->name,
-                'subtitle' => $category->description ?? 'All articles is all about '.$category->name,
+                'subtitle' => $category->description ?? 'All articles is all about ' . $category->name,
             ],
         ]);
     }

@@ -17,7 +17,7 @@ class HomeController extends Controller
         return inertia('Home', [
             'popularArticles' => ArticleBlockResource::collection(
                 Article::query()
-                    ->select('id', 'title', 'slug', 'excerpt', 'published_at', 'author_id', 'category_id', 'status')
+                    ->select('id', 'title', 'slug', 'excerpt', 'thumbnail', 'published_at', 'author_id', 'category_id', 'status')
                     ->with('author', 'category')
                     ->whereStatus(ArticleStatus::Published)
                     ->popularThisWeek()
@@ -26,7 +26,7 @@ class HomeController extends Controller
             ),
             'articles' => ArticleBlockResource::collection(
                 Article::query()
-                    ->select('id', 'title', 'slug', 'excerpt', 'published_at', 'author_id', 'category_id', 'status')
+                    ->select('id', 'title', 'slug', 'excerpt', 'thumbnail', 'published_at', 'author_id', 'category_id', 'status')
                     ->with('author', 'category')
                     ->whereStatus(ArticleStatus::Published)
                     ->latest()

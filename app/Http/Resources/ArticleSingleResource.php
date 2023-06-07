@@ -18,7 +18,9 @@ class ArticleSingleResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'slug' => $this->slug,
             'excerpt' => $this->excerpt,
+            'likes_count' => $this->likes_count,
             'body' => Markdown::convert($this->body)->getContent(),
             'thumbnail' => $this->getPicture('1080x720'),
             'published_at' => $this->published_at?->diffForHumans(),

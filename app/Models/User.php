@@ -51,7 +51,7 @@ class User extends Authenticatable
 
     public function gravatar($size = 150): string
     {
-        return 'https://www.gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s='.$size.'&d=mp';
+        return 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email))) . '?s=' . $size . '&d=mp';
     }
 
     public function comments(): HasMany
@@ -69,7 +69,7 @@ class User extends Authenticatable
         return $this->reports()->where('comment_id', $comment->id)->exists();
     }
 
-    public function articles()
+    public function articles(): HasMany
     {
         return $this->hasMany(Article::class, 'author_id');
     }

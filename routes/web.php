@@ -18,6 +18,9 @@ Route::post('comments/mark-as-spam/{comment}', [CommentController::class, 'repor
 Route::post('comments-reply/{comment}', [CommentController::class, 'reply'])->name('comments.reply');
 Route::resource('{article}/comments', CommentController::class)->only(['store', 'update', 'destroy']);
 
+Route::get('articles/in', [ArticleController::class, 'search'])->name('articles.search');
+Route::post('articles/{article}/like', [ArticleController::class, 'like'])->name('articles.like');
+Route::put('articles/{article}/publish', [ArticleController::class, 'publish'])->name('articles.publish');
 Route::get('articles/list', [ArticleController::class, 'list'])->name('articles.list');
 Route::get('articles/popular/{key}', [ArticleController::class, 'popular'])->name('articles.popular');
 Route::resource('articles', ArticleController::class)->scoped(['article' => 'slug']);
@@ -28,4 +31,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

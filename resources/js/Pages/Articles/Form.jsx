@@ -1,6 +1,6 @@
 import AppLayout from '@/Layouts/AppLayout.jsx';
 import Container from '@/Components/Container.jsx';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import InputLabel from '@/Components/InputLabel.jsx';
 import TextInput from '@/Components/TextInput.jsx';
 import Editor from '@/Components/Editor.jsx';
@@ -10,6 +10,7 @@ import PrimaryButton from '@/Components/PrimaryButton.jsx';
 import UploadImage from '@/Components/UploadImage.jsx';
 
 export default function Form({ page_settings, categories, statuses, article }) {
+    const { auth } = usePage().props;
     const { data, setData, processing, errors, reset, post } = useForm({
         title: article.title ?? '',
         body: article.body ?? '',
@@ -17,6 +18,7 @@ export default function Form({ page_settings, categories, statuses, article }) {
         category: article.category_id ?? '',
         status: article.status ?? '',
         thumbnail: article.thumbnail ?? '',
+        scheduled_at: article.scheduled_at ?? '',
         _method: page_settings.method,
     });
 
@@ -30,7 +32,7 @@ export default function Form({ page_settings, categories, statuses, article }) {
     }
 
     return (
-        <div>
+        <>
             <Head title={page_settings.title} />
             <header className="bg-gray-950 pb-10 pt-16">
                 <Container>
@@ -69,19 +71,35 @@ export default function Form({ page_settings, categories, statuses, article }) {
                             <Editor value={data.body} onChange={(value) => setData('body', value)} />
                         </div>
 
-                        <div className="max-w-xs">
-                            <div>
-                                <InputLabel htmlFor="status" value="Status" />
-                                <Select
-                                    id="status"
-                                    type="text"
-                                    name="status"
-                                    value={data.status}
-                                    options={statuses}
-                                    onChange={onChange}
-                                />
+                        {auth.user?.is_admin && (
+                            <div className="flex max-w-3xl gap-6">
+                                <div>
+                                    <InputLabel htmlFor="status" value="Status" />
+                                    <Select
+                                        id="status"
+                                        type="text"
+                                        name="status"
+                                        value={data.status}
+                                        options={statuses}
+                                        onChange={onChange}
+                                    />
+                                </div>
+
+                                {data.status === '3' ||
+                                    (data.status === 3 && (
+                                        <div>
+                                            <InputLabel htmlFor="scheduled_at" value="Scheduled At" />
+                                            <TextInput
+                                                id="scheduled_at"
+                                                type="datetime-local"
+                                                name="scheduled_at"
+                                                value={data.scheduled_at}
+                                                onChange={onChange}
+                                            />
+                                        </div>
+                                    ))}
                             </div>
-                        </div>
+                        )}
                         <div>
                             <PrimaryButton disabled={processing} type="submit">
                                 {page_settings.submit_text}
@@ -90,7 +108,7 @@ export default function Form({ page_settings, categories, statuses, article }) {
                     </form>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

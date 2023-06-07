@@ -1,5 +1,5 @@
 .table-of-contents-sidebar-wrapper {
-    @apply left-0 lg:absolute lg:w-72;
+    @apply left-0 top-8 z-20 -mb-72 ml-[-20rem] lg:sticky lg:w-72;
 }
 .table-of-contents-sidebar h2 {
     @apply mb-4 hidden font-semibold text-white lg:block;

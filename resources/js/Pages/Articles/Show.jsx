@@ -6,6 +6,8 @@ import Image from '@/Components/Image.jsx';
 import CommentBlock from '@/Pages/Articles/Partials/CommentBlock.jsx';
 import CommentForm from '@/Pages/Articles/Partials/CommentForm.jsx';
 import { useState } from 'react';
+import { HeartIcon } from '@heroicons/react/24/outline/index.js';
+import ArticleShare from '@/Components/Sharing.jsx';
 
 export default function Show({ article, comments }) {
     const [open, setOpen] = useState(false);
@@ -30,11 +32,20 @@ export default function Show({ article, comments }) {
                         </div>
 
                         <div className="mt-8 flex items-center justify-between">
-                            <div className="text-sm text-gray-300">
-                                Fill in:{' '}
-                                <Link className="font-medium text-sky-500" href={article.category.href}>
-                                    {article.category.name}
-                                </Link>
+                            <div className="space-y-6">
+                                <div className="text-sm text-gray-300">
+                                    Fill in:{' '}
+                                    <Link className="font-medium text-sky-500" href={article.category.href}>
+                                        {article.category.name}
+                                    </Link>
+                                </div>
+
+                                <div className="flex items-center gap-x-2">
+                                    <Link as="button" method="post" href={route('articles.like', [article])}>
+                                        <HeartIcon className="h-5 w-5 text-pink-500" />
+                                    </Link>
+                                    <div className="text-sm text-gray-400">{article.likes_count} likes</div>
+                                </div>
                             </div>
 
                             <div className="flex items-center gap-x-3">
@@ -64,10 +75,18 @@ export default function Show({ article, comments }) {
                     </div>
                 </div>
             </div>
+
+            <ArticleShare
+                title={article.title}
+                url={route('articles.show', [article])}
+                image={article.thumbnail}
+                teaser={article.excerpt}
+                via="Your App Name"
+            />
             <Container>
                 <div className="relative flex flex-col gap-20 lg:flex-row">
                     <div className="hidden w-1/4 lg:block" />
-                    <div className="w-full lg:w-2/3">
+                    <div className="-mt-96 w-full lg:w-2/3">
                         <Prose value={article.body} />
 
                         <div className="mt-12">

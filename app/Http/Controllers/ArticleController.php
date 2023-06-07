@@ -10,6 +10,7 @@ use App\Http\Resources\CommentResource;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Enums\ArticleStatus;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,7 +21,7 @@ class ArticleController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('can:create article')->except(['index', 'show', 'popular']);
+        $this->middleware('can:create article')->except(['index', 'show', 'popular', 'like', 'search']);
     }
 
     /**
@@ -29,7 +30,7 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::query()
-            ->select('id', 'title', 'slug', 'excerpt', 'published_at', 'author_id', 'category_id', 'status')
+            ->select('id', 'title', 'slug', 'excerpt', 'thumbnail', 'published_at', 'author_id', 'category_id', 'status')
             ->with('author', 'category')
             ->whereStatus(ArticleStatus::Published)
             ->latest()
@@ -82,12 +83,13 @@ class ArticleController extends Controller
         $article = $request->user()->articles()->create([
             'thumbnail' => $request->hasFile('thumbnail') ? $request->file('thumbnail')->store('articles') : null,
             'title' => $title = $request->string('title'),
-            'slug' => str($title.'-'.str()->random()),
+            'slug' => str($title . '-' . str()->random()),
             'excerpt' => $request->string('excerpt'),
             'body' => $request->string('body'),
-            'status' => $status = $request->enum('status', ArticleStatus::class),
+            'status' => $status = $request->enum('status', ArticleStatus::class) ?? ArticleStatus::Draft,
             'category_id' => $request->integer('category'),
             'published_at' => $status === ArticleStatus::Published ? now() : null,
+            'scheduled_at' => $status === ArticleStatus::Scheduled ? $request->scheduled_at : null,
         ]);
 
         return to_route('articles.show', $article);
@@ -98,10 +100,11 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
+        $this->authorize('view', $article);
         $article->visit()->hourlyIntervals()->withIp()->withSession()->withUser();
 
         return inertia('Articles/Show', [
-            'article' => new ArticleSingleResource($article->load('author', 'category')),
+            'article' => new ArticleSingleResource($article->loadCount('likes')->load('author', 'category')),
             'comments' => CommentResource::collection(
                 $article->comments()
                     ->withCount(['children', 'likes'])->where('parent_id', null)
@@ -116,6 +119,8 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
+        $this->authorize('update', $article);
+
         return inertia('Articles/Form', [
             'article' => $article,
             'statuses' => collect(ArticleStatus::cases())->map(fn ($status) => [
@@ -141,14 +146,16 @@ class ArticleController extends Controller
      */
     public function update(ArticleRequest $request, Article $article)
     {
+        $this->authorize('update', $article);
         $article->update([
             'title' => $title = $request->string('title'),
-            'slug' => str($title.'-'.str()->random()),
+            'slug' => str($title . '-' . str()->random()),
             'excerpt' => $request->string('excerpt'),
             'body' => $request->string('body'),
-            'status' => $status = $request->enum('status', ArticleStatus::class),
+            'status' => $status = $request->enum('status', ArticleStatus::class) ?? ArticleStatus::Draft,
             'category_id' => $request->integer('category'),
             'published_at' => $status === ArticleStatus::Published ? now() : null,
+            'scheduled_at' => $status === ArticleStatus::Scheduled ? $request->scheduled_at : null,
         ]);
 
         if ($request->hasFile('thumbnail')) {
@@ -171,20 +178,108 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        //
+        $this->authorize('delete', $article);
+        if ($article->thumbnail) {
+            Storage::delete($article->thumbnail);
+        }
+        $article->delete();
+
+        return back();
     }
 
+    /**
+     * Publish the specified resource.
+     */
+    public function publish(Article $article)
+    {
+        $this->authorize('publish', $article);
+
+        $article->update([
+            'status' => ArticleStatus::Published,
+            'published_at' => now(),
+        ]);
+
+        return back();
+    }
+
+    public function like(Request $request, Article $article)
+    {
+        if ($request->user()) {
+            $like = $article->likes()->where('user_id', $request->user()->id)->first();
+
+            if ($like) {
+                $like->delete();
+            } else {
+                $article->likes()->create(['user_id' => $request->user()->id]);
+            }
+        } else {
+            // flash message
+        }
+
+        return back();
+    }
+
+    public function search(Request $request)
+    {
+        $articles = Article::query()
+            ->select('id', 'title', 'slug', 'excerpt', 'thumbnail', 'published_at', 'author_id', 'category_id', 'status')
+            ->searchTerm($request->search)
+            ->with('author', 'category')
+            ->whereStatus(ArticleStatus::Published)
+            ->latest()
+            ->paginate(9);
+
+        return inertia('Articles/Index', [
+            'articles' => fn () => ArticleBlockResource::collection($articles)->additional([
+                'meta' => [
+                    'has_pages' => $articles->hasPages(),
+                ],
+            ]),
+
+            'params' => [
+                'title' => 'Search results',
+                'subtitle' => 'You are searching for: "' . $request->search . '" return ' . $articles->count() . ' ' . str()->plural('result', $articles->count()) . '.',
+            ],
+        ]);
+
+    }
+
+    /*
+     * Display a listing of the resource.
+     */
     public function list(Request $request)
     {
+        $only = ['search', 'status', 'category'];
         $articles = Article::query()
             ->with('author', 'category')
             ->withCount('comments')
             ->when(! $request->user()->hasRole('admin'), fn ($query) => $query->whereBelongsTo($request->user(), 'author'))
+            ->filter($request->only([...$only, 'user']))
             ->latest()
-            ->paginate(12);
+            ->paginate(12)
+            ->withQueryString();
 
         return inertia('Articles/List', [
-            'articles' => ArticleListResource::collection($articles)->additional([
+            'filters' => [
+                'categories' => fn () => Category::select(['slug', 'name'])->get()->map(fn ($i) => [
+                    'value' => $i->slug,
+                    'label' => $i->name,
+                ]),
+
+                'statuses' => fn () => collect(ArticleStatus::cases())->map(fn ($i) => [
+                    'value' => strtolower($i->name),
+                    'label' => $i->name,
+                ]),
+
+                'users' => fn () => User::select(['id', 'name'])->whereHas('articles')->get()->map(fn ($i) => [
+                    'value' => $i->id,
+                    'label' => $i->name,
+                ]),
+
+                'state' => $request->only([...$only, 'page']),
+            ],
+
+            'articles' => fn () => ArticleListResource::collection($articles)->additional([
                 'meta' => [
                     'has_pages' => $articles->hasPages(),
                 ],
@@ -192,6 +287,9 @@ class ArticleController extends Controller
         ]);
     }
 
+    /**
+     * Display a listing of the popular resource.
+     */
     public function popular($key)
     {
         match ($key) {

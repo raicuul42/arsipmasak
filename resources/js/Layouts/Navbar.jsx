@@ -2,11 +2,24 @@ import { Disclosure } from '@headlessui/react';
 import { Bars2Icon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { Dropdown, DropdownLink } from '@/Components/Dropdown.jsx';
 import NavLink from '@/Components/NavLink.jsx';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo.jsx';
+import { useState } from 'react';
 
 export default function Navbar() {
     const { auth } = usePage().props;
+    const [query, setQuery] = useState('');
+    function gimmeResult(e) {
+        e.preventDefault();
+        router.get(
+            route('articles.search'),
+            { search: query },
+            {
+                preserveScroll: true,
+                preserveState: true,
+            },
+        );
+    }
     return (
         <Disclosure as="nav" className="bg-gray-950">
             {({ open }) => (
@@ -26,21 +39,23 @@ export default function Navbar() {
                             </div>
                             <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
                                 <div className="w-full max-w-lg lg:max-w-xs">
-                                    <label htmlFor="search" className="sr-only">
+                                    <label htmlFor="query" className="sr-only">
                                         Search
                                     </label>
-                                    <div className="relative">
+                                    <form onSubmit={gimmeResult} className="relative">
                                         <div className="group pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                             <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                         </div>
                                         <input
-                                            id="search"
-                                            name="search"
-                                            className="block w-full rounded-md border-0 bg-gray-800 py-1.5 pl-10 pr-3 text-sm leading-6 text-gray-900 text-white placeholder:text-gray-500 focus:bg-gray-700 focus:ring-gray-700"
+                                            id="query"
+                                            name="query"
+                                            value={query}
+                                            onChange={(e) => setQuery(e.target.value)}
+                                            className="block w-full rounded-md border border-gray-700 bg-gray-800 py-1.5 pl-10 pr-3 text-sm leading-6 text-white transition placeholder:text-gray-400 focus:border focus:border-sky-500 focus:bg-gray-700 focus:outline-none focus:ring focus:ring-sky-900"
                                             placeholder="Search"
-                                            type="search"
+                                            type="query"
                                         />
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                             <div className="hidden lg:ml-4 lg:flex lg:items-center">
