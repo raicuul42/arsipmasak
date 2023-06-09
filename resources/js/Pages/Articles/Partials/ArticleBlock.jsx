@@ -6,14 +6,14 @@ export default function ArticleBlock({ articles }) {
         <div className="grid grid-cols-1 gap-x-16 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             {articles.map((article) => (
                 <article key={article.id} className="flex flex-col items-start justify-between">
-                    <div className="relative w-full">
+                    <Link href={article.href} className="relative block w-full">
                         <Image
                             src={article.thumbnail}
                             alt=""
                             className="aspect-[16/9] w-full rounded-2xl bg-black object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
                         />
                         <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
-                    </div>
+                    </Link>
                     <div className="mt-6 max-w-xl">
                         <div className="flex items-center justify-between gap-x-4 text-xs">
                             <time dateTime={article.published_at} className="text-gray-400">

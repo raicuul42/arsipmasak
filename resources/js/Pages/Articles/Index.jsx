@@ -3,7 +3,6 @@ import AppLayout from '@/Layouts/AppLayout';
 import Container from '@/Components/Container';
 import ArticleBlock from '@/Pages/Articles/Partials/ArticleBlock';
 import Pagination from '@/Components/Pagination';
-import Filter from '@/Pages/Articles/Partials/Filter';
 import MetaTags from '@/Components/MetaTags';
 import Header from '@/Components/Header';
 
