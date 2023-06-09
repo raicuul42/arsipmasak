@@ -1,13 +1,14 @@
-import AppLayout from '@/Layouts/AppLayout.jsx';
+import AppLayout from '@/Layouts/AppLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
-import Container from '@/Components/Container.jsx';
-import Prose from '@/Components/Prose.jsx';
-import Image from '@/Components/Image.jsx';
-import CommentBlock from '@/Pages/Articles/Partials/CommentBlock.jsx';
-import CommentForm from '@/Pages/Articles/Partials/CommentForm.jsx';
+import Container from '@/Components/Container';
+import Prose from '@/Components/Prose';
+import Image from '@/Components/Image';
+import CommentBlock from '@/Pages/Articles/Partials/CommentBlock';
+import CommentForm from '@/Pages/Articles/Partials/CommentForm';
 import { useState } from 'react';
 import { HeartIcon } from '@heroicons/react/24/outline/index.js';
-import ArticleShare from '@/Components/Sharing.jsx';
+import ArticleShare from '@/Components/Sharing';
+import MetaTags from '@/Components/MetaTags';
 
 export default function Show({ article, comments }) {
     const [open, setOpen] = useState(false);
@@ -22,6 +23,12 @@ export default function Show({ article, comments }) {
     return (
         <div>
             <Head title={article.title} />
+            <MetaTags
+                title={article.title}
+                description={article.excerpt}
+                url={route('articles.show', [article])}
+                image={article.thumbnail}
+            />
 
             <div className="mb-4 border-b border-gray-900 bg-gray-950 py-8 sm:py-32 lg:mb-16">
                 <div className="grid lg:grid-cols-6 lg:gap-24">

@@ -11,4 +11,7 @@ export default defineConfig({
         }),
         react(),
     ],
+    ssr: {
+        noExternal: ['react-share', 'lodash', '@uiw/react-md-editor', 'react-markdown', '@uiw/react-markdown-preview'],
+    },
 });

@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
-import AppLayout from '@/Layouts/AppLayout.jsx';
-import Header from '@/Components/Header.jsx';
+import AppLayout from '@/Layouts/AppLayout';
+import Header from '@/Components/Header';
 
 export default function Dashboard() {
     return (

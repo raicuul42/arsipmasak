@@ -49,6 +49,11 @@ class Article extends Model implements CanVisit
         return $query->withCount('comments')->orderBy('comments_count', 'desc');
     }
 
+    public function scopeMostLikes($query)
+    {
+        return $query->whereHas('likes')->withCount('likes')->orderBy('likes_count', 'desc');
+    }
+
     public function likes(): MorphMany
     {
         return $this->morphMany(Like::class, 'likeable');

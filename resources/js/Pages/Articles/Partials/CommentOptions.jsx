@@ -4,7 +4,7 @@ import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import useSwal from '@/Hooks/useSwal.js';
 import clsx from 'clsx';
 import { ExclamationCircleIcon, TrashIcon } from '@heroicons/react/24/outline/index.js';
-import ReportModal from '@/Pages/Articles/Partials/ReportModal.jsx';
+import ReportModal from '@/Pages/Articles/Partials/ReportModal';
 
 export default function CommentOptions({ auth, article, comment }) {
     const { ask } = useSwal();

@@ -21,7 +21,7 @@ class ArticleController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('can:create article')->except(['index', 'show', 'popular', 'like', 'search']);
+        $this->middleware('can:create article')->except(['index', 'show', 'filter', 'like', 'search']);
     }
 
     /**
@@ -92,6 +92,8 @@ class ArticleController extends Controller
             'scheduled_at' => $status === ArticleStatus::Scheduled ? $request->scheduled_at : null,
         ]);
 
+        flashMessage('Created!', 'Successfully created article!');
+
         return to_route('articles.show', $article);
     }
 
@@ -149,7 +151,7 @@ class ArticleController extends Controller
         $this->authorize('update', $article);
         $article->update([
             'title' => $title = $request->string('title'),
-            'slug' => str($title . '-' . str()->random()),
+            'slug' => str($title . '-' . str()->random())->slug(),
             'excerpt' => $request->string('excerpt'),
             'body' => $request->string('body'),
             'status' => $status = $request->enum('status', ArticleStatus::class) ?? ArticleStatus::Draft,
@@ -214,6 +216,11 @@ class ArticleController extends Controller
             }
         } else {
             // flash message
+            flashMessage(
+                'Failed',
+                'You need to login to like this article.',
+                'warning',
+            );
         }
 
         return back();
@@ -290,14 +297,16 @@ class ArticleController extends Controller
     /**
      * Display a listing of the popular resource.
      */
-    public function popular($key)
+    public function filter($key)
     {
         match ($key) {
             'week' => $articles = Article::query()->with('author', 'category')->popularThisWeek()->paginate(9),
             'month' => $articles = Article::query()->with('author', 'category')->popularThisMonth()->paginate(9),
             'year' => $articles = Article::query()->with('author', 'category')->popularThisYear()->paginate(9),
             'trending' => $articles = Article::query()->with('author', 'category')->trending()->paginate(9),
+            'most-likes' => $articles = Article::query()->with('author', 'category')->mostLikes()->paginate(9),
             'all-time' => $articles = Article::query()->with('author', 'category')->popularAllTime()->paginate(9),
+            default => abort(404),
         };
 
         $params = match ($key) {
@@ -316,6 +325,10 @@ class ArticleController extends Controller
             'trending' => [
                 'title' => 'Trending Articles',
                 'subtitle' => 'The most trending articles.',
+            ],
+            'most-likes' => [
+                'title' => 'Most Likes Article',
+                'subtitle' => 'The most likes articles.',
             ],
             'all-time' => [
                 'title' => 'Popular All Time',

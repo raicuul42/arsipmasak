@@ -1,15 +1,17 @@
-import AppLayout from '@/Layouts/AppLayout.jsx';
-import Container from '@/Components/Container.jsx';
+import AppLayout from '@/Layouts/AppLayout';
+import Container from '@/Components/Container';
 import { Head, Link, usePage } from '@inertiajs/react';
-import ArticleList from '@/Pages/Articles/Partials/ArticleList.jsx';
-import Pagination from '@/Components/Pagination.jsx';
+import ArticleList from '@/Pages/Articles/Partials/ArticleList';
+import Pagination from '@/Components/Pagination';
 import { useState } from 'react';
 import { useFilter } from '@/Hooks/useFilter.js';
-import Select from '@/Components/Select.jsx';
-import SearchInput from '@/Components/SearchInput.jsx';
+import Select from '@/Components/Select';
+import SearchInput from '@/Components/SearchInput';
 import { ArrowPathIcon } from '@heroicons/react/24/outline/index.js';
+import clsx from 'clsx';
 
 export default function List({ filters }) {
+    const { auth } = usePage().props;
     const { data: articles, meta, links } = usePage().props.articles;
     const [params, setParams] = useState(filters.state);
     useFilter({
@@ -38,8 +40,12 @@ export default function List({ filters }) {
                             </Link>
                         </div>
                     </div>
-
-                    <div className="ml-auto mt-8 grid max-w-4xl grid-cols-5 items-center gap-x-1">
+                    <div
+                        className={clsx(
+                            'ml-auto mt-8 grid max-w-4xl items-center gap-x-1',
+                            auth.user.is_admin ? 'grid-cols-5' : 'grid-cols-4',
+                        )}
+                    >
                         {!Array.isArray(params) ? (
                             <div className="col-span-1 grid place-items-end">
                                 <Link
@@ -58,12 +64,14 @@ export default function List({ filters }) {
                             onChange={(e) => setParams({ ...params, category: e.target.value })}
                             options={filters.categories}
                         />
-                        <Select
-                            value={params.category}
-                            placeholder="Select an author"
-                            onChange={(e) => setParams({ ...params, user: e.target.value })}
-                            options={filters.users}
-                        />
+                        {auth.user.is_admin && (
+                            <Select
+                                value={params.category}
+                                placeholder="Select an author"
+                                onChange={(e) => setParams({ ...params, user: e.target.value })}
+                                options={filters.users}
+                            />
+                        )}
                         <Select
                             value={params.status}
                             placeholder="Select a status"

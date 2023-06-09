@@ -1,7 +1,7 @@
-import PrimaryButton from '@/Components/PrimaryButton.jsx';
-import Modal from '@/Components/Modal.jsx';
-import SecondaryButton from '@/Components/SecondaryButton.jsx';
-import Select from '@/Components/Select.jsx';
+import PrimaryButton from '@/Components/PrimaryButton';
+import Modal from '@/Components/Modal';
+import SecondaryButton from '@/Components/SecondaryButton';
+import Select from '@/Components/Select';
 import { useForm } from '@inertiajs/react';
 
 const reasons = [

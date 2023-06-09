@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Link } from '@inertiajs/react';
 import { Fragment } from 'react';
 
-export function Dropdown({ trigger, children }) {
+export function Dropdown({ align = 'left', trigger, children }) {
     return (
         <Menu as="div" className="relative ml-4 flex-shrink-0">
             <div>
@@ -21,7 +21,12 @@ export function Dropdown({ trigger, children }) {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
             >
-                <Menu.Items className="absolute right-0 z-10 mt-2 w-64 origin-top-right divide-y rounded-md bg-white py-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items
+                    className={clsx(
+                        'absolute right-0 z-10 mt-2 w-64 origin-top-right divide-y rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
+                        align === 'left' ? 'right-0' : 'left-0',
+                    )}
+                >
                     {children}
                 </Menu.Items>
             </Transition>

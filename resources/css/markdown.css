@@ -56,7 +56,7 @@
 }
 
 .code-container .copyBtn {
-    @apply absolute right-0 top-0 p-4;
+    @apply absolute right-0 top-0 p-3;
 }
 
 .prose :where(iframe):not(:where([class~='not-prose'] *)) {

@@ -1,4 +1,4 @@
-import Image from '@/Components/Image.jsx';
+import Image from '@/Components/Image';
 import { Link } from '@inertiajs/react';
 
 export default function ArticleBlock({ articles }) {

@@ -1,4 +1,4 @@
-import ApplicationLogo from '@/Components/ApplicationLogo.jsx';
+import ApplicationLogo from '@/Components/ApplicationLogo';
 
 const navigation = {
     solutions: [

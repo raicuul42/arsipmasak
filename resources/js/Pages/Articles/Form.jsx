@@ -1,13 +1,13 @@
-import AppLayout from '@/Layouts/AppLayout.jsx';
-import Container from '@/Components/Container.jsx';
+import AppLayout from '@/Layouts/AppLayout';
+import Container from '@/Components/Container';
 import { Head, useForm, usePage } from '@inertiajs/react';
-import InputLabel from '@/Components/InputLabel.jsx';
-import TextInput from '@/Components/TextInput.jsx';
-import Editor from '@/Components/Editor.jsx';
-import Select from '@/Components/Select.jsx';
-import Textarea from '@/Components/Textarea.jsx';
-import PrimaryButton from '@/Components/PrimaryButton.jsx';
-import UploadImage from '@/Components/UploadImage.jsx';
+import InputLabel from '@/Components/InputLabel';
+import TextInput from '@/Components/TextInput';
+import Editor from '@/Components/Editor';
+import Select from '@/Components/Select';
+import Textarea from '@/Components/Textarea';
+import PrimaryButton from '@/Components/PrimaryButton';
+import UploadImage from '@/Components/UploadImage';
 
 export default function Form({ page_settings, categories, statuses, article }) {
     const { auth } = usePage().props;

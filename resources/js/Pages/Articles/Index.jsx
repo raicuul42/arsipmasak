@@ -2,14 +2,16 @@ import { Head, usePage } from '@inertiajs/react';
 import AppLayout from '@/Layouts/AppLayout';
 import Container from '@/Components/Container';
 import ArticleBlock from '@/Pages/Articles/Partials/ArticleBlock';
-import Pagination from '@/Components/Pagination.jsx';
-import Filter from '@/Pages/Articles/Partials/Filter.jsx';
+import Pagination from '@/Components/Pagination';
+import Filter from '@/Pages/Articles/Partials/Filter';
+import MetaTags from '@/Components/MetaTags';
 
 export default function Index({ params }) {
     const { data: articles, meta, links } = usePage().props.articles;
     return (
         <div>
             <Head title={params.title} />
+            <MetaTags title={params.title} description={params.subtitle} url={route('articles.index')} />
             <div className="bg-gray-950 pb-10 pt-16">
                 <Container>
                     <div className="flex items-center justify-between">

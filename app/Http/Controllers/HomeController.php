@@ -15,6 +15,7 @@ class HomeController extends Controller
     public function __invoke(Request $request)
     {
         return inertia('Home', [
+            'gotoLatestArticle' => route('articles.show', [Article::select('slug')->whereStatus(ArticleStatus::Published)->latest()->value('slug')]),
             'popularArticles' => ArticleBlockResource::collection(
                 Article::query()
                     ->select('id', 'title', 'slug', 'excerpt', 'thumbnail', 'published_at', 'author_id', 'category_id', 'status')

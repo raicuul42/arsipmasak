@@ -1,13 +1,14 @@
 import { Disclosure } from '@headlessui/react';
-import { Bars2Icon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { Dropdown, DropdownLink } from '@/Components/Dropdown.jsx';
-import NavLink from '@/Components/NavLink.jsx';
+import { Bars2Icon, ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import { Dropdown, DropdownLink } from '@/Components/Dropdown';
+import NavLink from '@/Components/NavLink';
 import { Link, router, usePage } from '@inertiajs/react';
-import ApplicationLogo from '@/Components/ApplicationLogo.jsx';
+import ApplicationLogo from '@/Components/ApplicationLogo';
 import { useState } from 'react';
+import { filters } from '@/Pages/Articles/Partials/Filter';
 
 export default function Navbar() {
-    const { auth } = usePage().props;
+    const { auth, global_categories } = usePage().props;
     const [query, setQuery] = useState('');
     function gimmeResult(e) {
         e.preventDefault();
@@ -33,8 +34,46 @@ export default function Navbar() {
                                     </Link>
                                 </div>
                                 <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
-                                    {/*<NavLink href="/" children="Home" />*/}
-                                    {/*<NavLink href="/articles" children="Blog" />*/}
+                                    <Dropdown
+                                        align="right"
+                                        trigger={
+                                            <div className="flex items-center">
+                                                <span>Articles</span>
+                                                <ChevronDownIcon
+                                                    className="ml-4 h-4 w-4 text-gray-400"
+                                                    aria-hidden="true"
+                                                />
+                                            </div>
+                                        }
+                                    >
+                                        <div>
+                                            {filters.map((filter, i) => (
+                                                <DropdownLink key={i} href={filter.href}>
+                                                    {filter.name}
+                                                </DropdownLink>
+                                            ))}
+                                        </div>
+                                    </Dropdown>
+                                    <Dropdown
+                                        align="right"
+                                        trigger={
+                                            <div className="flex items-center">
+                                                <span>Categories</span>
+                                                <ChevronDownIcon
+                                                    className="ml-4 h-4 w-4 text-gray-400"
+                                                    aria-hidden="true"
+                                                />
+                                            </div>
+                                        }
+                                    >
+                                        <div>
+                                            {global_categories.map((category, i) => (
+                                                <DropdownLink key={i} href={route('categories.show', [category])}>
+                                                    {category.name}
+                                                </DropdownLink>
+                                            ))}
+                                        </div>
+                                    </Dropdown>
                                 </div>
                             </div>
                             <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">

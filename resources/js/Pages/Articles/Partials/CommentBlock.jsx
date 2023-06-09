@@ -1,8 +1,8 @@
 import { ChatBubbleOvalLeftIcon, HeartIcon, PencilIcon } from '@heroicons/react/24/outline/index.js';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import CommentForm from '@/Pages/Articles/Partials/CommentForm.jsx';
-import CommentOptions from '@/Pages/Articles/Partials/CommentOptions.jsx';
+import CommentForm from '@/Pages/Articles/Partials/CommentForm';
+import CommentOptions from '@/Pages/Articles/Partials/CommentOptions';
 
 export default function CommentBlock({ comments }) {
     const { auth, article } = usePage().props;
