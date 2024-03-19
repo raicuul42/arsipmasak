@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
+import { GuestLayout } from '@/layouts/guest-layout';
+import { InputError } from '@/components/input-error';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -32,15 +32,15 @@ export default function Register() {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="name" value="Name" />
+                    <Label htmlFor="name">Name</Label>
 
-                    <TextInput
+                    <Input
                         id="name"
                         name="name"
                         value={data.name}
                         className="mt-1 block w-full"
                         autoComplete="name"
-                        isFocused={true}
+                        autoFocus
                         onChange={(e) => setData('name', e.target.value)}
                         required
                     />
@@ -49,9 +49,9 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Email" />
+                    <Label htmlFor="email">Email</Label>
 
-                    <TextInput
+                    <Input
                         id="email"
                         type="email"
                         name="email"
@@ -66,9 +66,9 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <Label htmlFor="password">Password</Label>
 
-                    <TextInput
+                    <Input
                         id="password"
                         type="password"
                         name="password"
@@ -83,9 +83,9 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
+                    <Label htmlFor="password_confirmation">Confirm Password</Label>
 
-                    <TextInput
+                    <Input
                         id="password_confirmation"
                         type="password"
                         name="password_confirmation"
@@ -100,16 +100,13 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4 flex items-center justify-end">
-                    <Link
-                        href={route('login')}
-                        className="rounded-md text-sm text-gray-400 underline hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                    >
+                    <Link href={route('login')} className="text-sm font-medium text-foreground hover:underline">
                         Already registered?
                     </Link>
 
-                    <PrimaryButton className="ml-4" disabled={processing}>
+                    <Button className="ml-4" disabled={processing}>
                         Register
-                    </PrimaryButton>
+                    </Button>
                 </div>
             </form>
         </GuestLayout>

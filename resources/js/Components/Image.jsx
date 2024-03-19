@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import LazyLoad from 'react-lazy-load';
 
-export default function Image({ className, alt, height, src, width }) {
+export function Image({ className, alt, height, src, width }) {
     return (
         <LazyLoad height={height} width={width} threshold={0.95}>
             <motion.img

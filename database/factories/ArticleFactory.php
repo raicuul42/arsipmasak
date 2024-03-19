@@ -22,7 +22,7 @@ class ArticleFactory extends Factory
             'title' => $title = $this->faker->sentence,
             'slug' => str($title)->slug(),
             'excerpt' => $this->faker->paragraph,
-            'body' => $this->faker->paragraph,
+            'body' => $this->faker->paragraphs(10, true),
             'published_at' => $this->faker->dateTimeBetween('-1 month'),
             'status' => 2,
         ];

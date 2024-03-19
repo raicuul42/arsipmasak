@@ -21,7 +21,7 @@ class ArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'thumbnail' => Rule::when($this->hasFile('thumbnail'), ['image', 'max:2048']), // 2MB
+            'thumbnail' => Rule::when($this->hasFile('thumbnail'), ['image', 'max:3096']), // 3MB
             'title' => ['required', 'min:3', 'max:255'],
             'body' => ['required'],
             'excerpt' => ['required'],

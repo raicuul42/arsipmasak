@@ -1,0 +1,83 @@
+.code-container-filename:before {
+    @apply -ml-1 mr-0.5 h-7 w-7 shrink-0 bg-contain content-[''];
+}
+
+.code-container-filename:before {
+    background-image: url('svg/code.svg');
+}
+
+.code-container.css .code-container-filename::before {
+    background-image: url('svg/css.svg');
+}
+
+.code-container.html .code-container-filename::before {
+    background-image: url('svg/html.svg');
+}
+
+.code-container.php .code-container-filename::before {
+    @apply bg-[url('svg/php.svg')];
+}
+
+.code-container.sql .code-container-filename::before {
+    background-image: url('svg/sql.svg');
+}
+
+.code-container.py .code-container-filename::before,
+.code-container.python .code-container-filename::before {
+    background-image: url('svg/py.svg');
+}
+
+.code-container.bash .code-container-filename::before,
+.code-container.shell .code-container-filename::before {
+    background-image: url('svg/bash.svg');
+}
+
+.code-container.js .code-container-filename::before,
+.code-container.javascript .code-container-filename::before {
+    background-image: url('svg/js.svg');
+}
+
+.code-container.ts .code-container-filename::before {
+    background-image: url('svg/ts.svg');
+}
+
+.code-container.tsx .code-container-filename::before {
+    background-image: url('svg/tsx.svg');
+}
+
+.code-container.jsx .code-container-filename::before {
+    background-image: url('svg/jsx.svg');
+}
+
+.code-container.blade .code-container-filename::before {
+    @apply bg-[url('svg/blade.svg')];
+}
+
+.code-container.vue .code-container-filename::before {
+    @apply bg-[url('svg/vue.svg')];
+}
+
+.code-container.go .code-container-filename::before {
+    @apply bg-[url('svg/go.svg')];
+}
+
+.code-container.java .code-container-filename::before {
+    @apply bg-[url('svg/java.svg')];
+}
+.code-container.swift .code-container-filename::before {
+    @apply bg-[url('svg/swift.svg')];
+}
+
+.code-container.json .code-container-filename::before {
+    @apply bg-[url('svg/json.svg')];
+}
+
+.code-container.kt .code-container-filename::before,
+.code-container.kotlin .code-container-filename::before {
+    @apply bg-[url('svg/kt.svg')];
+}
+
+.code-container.ruby .code-container-filename::before,
+.code-container.rb .code-container-filename::before {
+    @apply bg-[url('svg/rb.svg')];
+}

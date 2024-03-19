@@ -17,7 +17,7 @@ import {
 
 export default function ArticleShare({ title, url, via, teaser, image }) {
     return (
-        <div className="sticky left-0 top-8 mb-8 w-20 rounded-r-2xl border-b border-r border-t border-sky-800 bg-sky-500/5 p-4 shadow-xl shadow-sky-500/20 transition duration-150 hover:bg-sky-500/10">
+        <div className="sticky left-0 top-8 mb-8 hidden w-20 rounded-r-2xl border-b border-r border-t border-sky-500/20 bg-sky-500/5 p-4 shadow-xl shadow-sky-500/10 transition duration-150 hover:bg-sky-500/10 lg:block">
             <div className="flex flex-col items-center justify-center gap-2 [&>button>svg]:h-8 [&>button>svg]:w-8 [&>button>svg]:rounded-lg">
                 Share
                 <FacebookShareButton url={url} quote={teaser}>

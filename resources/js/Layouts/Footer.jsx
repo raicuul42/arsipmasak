@@ -1,4 +1,4 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
+import { ApplicationLogo } from '@/components/application-logo';
 
 const navigation = {
     solutions: [
@@ -90,9 +90,9 @@ const navigation = {
     ],
 };
 
-export default function Footer() {
+export function Footer() {
     return (
-        <footer className="bg-gray-950" aria-labelledby="footer-heading">
+        <footer className="bg-background" aria-labelledby="footer-heading">
             <h2 id="footer-heading" className="sr-only">
                 Footer
             </h2>
@@ -100,12 +100,13 @@ export default function Footer() {
                 <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                     <div className="space-y-8">
                         <ApplicationLogo className="h-10 w-auto fill-red-500" />
-                        <p className="text-sm leading-6 text-gray-300">
-                            Making the world a better place through constructing elegant hierarchies.
+                        <p className="text-sm leading-6 text-muted-foreground">
+                            Terhubung dengan kekayaan budaya Nusantara melalui aplikasi kami yang mempersembahkan lebih dari sekadar resep masakan. Di sini,
+                            Anda akan menemukan cerita-cerita menarik, tip-tips memasak, dan panduan lengkap untuk mengeksplorasi dunia kuliner Nusantara.
                         </p>
                         <div className="flex space-x-6">
                             {navigation.social.map((item) => (
-                                <a key={item.name} href={item.href} className="text-gray-500 hover:text-gray-400">
+                                <a key={item.name} href={item.href} className="text-gray-500 hover:text-muted-foreground">
                                     <span className="sr-only">{item.name}</span>
                                     <item.icon className="h-6 w-6" aria-hidden="true" />
                                 </a>
@@ -115,14 +116,11 @@ export default function Footer() {
                     <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
                         <div className="md:grid md:grid-cols-2 md:gap-8">
                             <div>
-                                <h3 className="text-sm font-semibold leading-6 text-white">Solutions</h3>
+                                <h3 className="text-sm font-semibold leading-6 text-foreground">Solutions</h3>
                                 <ul role="list" className="mt-6 space-y-4">
                                     {navigation.solutions.map((item) => (
                                         <li key={item.name}>
-                                            <a
-                                                href={item.href}
-                                                className="text-sm leading-6 text-gray-300 hover:text-white"
-                                            >
+                                            <a href={item.href} className="text-sm leading-6 text-muted-foreground hover:text-foreground">
                                                 {item.name}
                                             </a>
                                         </li>
@@ -130,14 +128,11 @@ export default function Footer() {
                                 </ul>
                             </div>
                             <div className="mt-10 md:mt-0">
-                                <h3 className="text-sm font-semibold leading-6 text-white">Support</h3>
+                                <h3 className="text-sm font-semibold leading-6 text-foreground">Support</h3>
                                 <ul role="list" className="mt-6 space-y-4">
                                     {navigation.support.map((item) => (
                                         <li key={item.name}>
-                                            <a
-                                                href={item.href}
-                                                className="text-sm leading-6 text-gray-300 hover:text-white"
-                                            >
+                                            <a href={item.href} className="text-sm leading-6 text-muted-foreground hover:text-foreground">
                                                 {item.name}
                                             </a>
                                         </li>
@@ -147,14 +142,11 @@ export default function Footer() {
                         </div>
                         <div className="md:grid md:grid-cols-2 md:gap-8">
                             <div>
-                                <h3 className="text-sm font-semibold leading-6 text-white">Company</h3>
+                                <h3 className="text-sm font-semibold leading-6 text-foreground">Company</h3>
                                 <ul role="list" className="mt-6 space-y-4">
                                     {navigation.company.map((item) => (
                                         <li key={item.name}>
-                                            <a
-                                                href={item.href}
-                                                className="text-sm leading-6 text-gray-300 hover:text-white"
-                                            >
+                                            <a href={item.href} className="text-sm leading-6 text-muted-foreground hover:text-foreground">
                                                 {item.name}
                                             </a>
                                         </li>
@@ -162,14 +154,11 @@ export default function Footer() {
                                 </ul>
                             </div>
                             <div className="mt-10 md:mt-0">
-                                <h3 className="text-sm font-semibold leading-6 text-white">Legal</h3>
+                                <h3 className="text-sm font-semibold leading-6 text-foreground">Legal</h3>
                                 <ul role="list" className="mt-6 space-y-4">
                                     {navigation.legal.map((item) => (
                                         <li key={item.name}>
-                                            <a
-                                                href={item.href}
-                                                className="text-sm leading-6 text-gray-300 hover:text-white"
-                                            >
+                                            <a href={item.href} className="text-sm leading-6 text-muted-foreground hover:text-foreground">
                                                 {item.name}
                                             </a>
                                         </li>
@@ -180,9 +169,7 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 lg:mt-24">
-                    <p className="text-xs leading-5 text-gray-400">
-                        &copy; 2020 Your Company, Inc. All rights reserved.
-                    </p>
+                    <p className="text-xs leading-5 text-muted-foreground">&copy; 2020 Your Company, Inc. All rights reserved.</p>
                 </div>
             </div>
         </footer>

@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import Checkbox from '@/Components/Checkbox';
-import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
+import { GuestLayout } from '@/layouts/guest-layout';
+import { InputError } from '@/components/input-error';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from '@/components/ui/button';
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -34,16 +34,16 @@ export default function Login({ status, canResetPassword }) {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <Label htmlFor="email">Email</Label>
 
-                    <TextInput
+                    <Input
                         id="email"
                         type="email"
                         name="email"
                         value={data.email}
                         className="mt-1 block w-full"
                         autoComplete="username"
-                        isFocused={true}
+                        autoFocus
                         onChange={(e) => setData('email', e.target.value)}
                     />
 
@@ -51,9 +51,9 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <Label htmlFor="password">Password</Label>
 
-                    <TextInput
+                    <Input
                         id="password"
                         type="password"
                         name="password"
@@ -66,30 +66,29 @@ export default function Login({ status, canResetPassword }) {
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 
-                <div className="mt-4 block">
+                <div className="mt-4 flex items-center justify-between">
                     <label className="flex items-center">
-                        <Checkbox
-                            name="remember"
-                            checked={data.remember}
-                            onChange={(e) => setData('remember', e.target.checked)}
-                        />
-                        <span className="ml-2 text-sm text-gray-400">Remember me</span>
-                    </label>
-                </div>
+                        <Checkbox defaultChecked={true} name="remember" onCheckedChange={(e) => setData('remember', e)} />
 
-                <div className="mt-4 flex items-center justify-end">
+                        <span className="ml-2 select-none text-sm text-muted-foreground">Remember me</span>
+                    </label>
                     {canResetPassword && (
-                        <Link
-                            href={route('password.request')}
-                            className="rounded-md text-sm text-gray-400 underline hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                        >
-                            Forgot your password?
+                        <Link href="/forgot-password" className="text-sm font-medium text-foreground hover:underline">
+                            Forgot password?
                         </Link>
                     )}
+                </div>
 
-                    <PrimaryButton className="ml-4" disabled={processing}>
+                <div className="mt-4 flex items-center justify-end gap-x-2">
+                    {canResetPassword && (
+                        <Button variant="ghost" asChild>
+                            <Link href="/Users/irsyadadl/sites/blog/resources/js/pages/auth/register">Register</Link>
+                        </Button>
+                    )}
+
+                    <Button disabled={processing} type="submit">
                         Log in
-                    </PrimaryButton>
+                    </Button>
                 </div>
             </form>
         </GuestLayout>

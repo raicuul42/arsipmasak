@@ -11,7 +11,7 @@ final class YouTubeUrl implements YouTubeUrlInterface
     /**
      * YouTubeUrl constructor.
      */
-    public function __construct(string $videoId, ?string $startTimestamp = null)
+    public function __construct(string $videoId, string $startTimestamp = null)
     {
         $this->videoId = $videoId;
         $this->startTimestamp = $startTimestamp;

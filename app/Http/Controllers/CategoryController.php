@@ -47,7 +47,7 @@ class CategoryController extends Controller
             ->latest()
             ->paginate(9);
 
-        return inertia('Articles/Index', [
+        return inertia('articles/index', [
             'articles' => ArticleBlockResource::collection($articles)->additional([
                 'meta' => ['has_pages' => $articles->hasPages()],
             ]),

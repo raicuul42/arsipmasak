@@ -39,26 +39,6 @@ class Article extends Model implements CanVisit
         return $this->thumbnail !== null ? Storage::url($this->thumbnail) : 'https://placehold.co/' . $size . '/1F2937/FFFFFF/?font=lato&text=No+Image+Available';
     }
 
-    public function comments(): HasMany
-    {
-        return $this->hasMany(Comment::class);
-    }
-
-    public function scopeTrending($query)
-    {
-        return $query->withCount('comments')->orderBy('comments_count', 'desc');
-    }
-
-    public function scopeMostLikes($query)
-    {
-        return $query->whereHas('likes')->withCount('likes')->orderBy('likes_count', 'desc');
-    }
-
-    public function likes(): MorphMany
-    {
-        return $this->morphMany(Like::class, 'likeable');
-    }
-
     public function scopeSearchTerm($query, string $terms = null): void
     {
         collect(str_getcsv($terms, ' ', '"'))

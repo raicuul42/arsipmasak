@@ -13,12 +13,14 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/base16/material-palenight.min.css">
 
         <!-- Scripts -->
+        <script src="/theme.js"></script>
+        <script src="/tab.js"></script>
         @routes
         @viteReactRefresh
-        @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
+        @vite(['resources/js/app.jsx', "resources/js/pages/{$page['component']}.jsx"])
         @inertiaHead
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased tracking-tight">
         @inertia
     </body>
 </html>

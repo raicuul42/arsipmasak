@@ -6,7 +6,6 @@ use App\Http\Requests\ArticleRequest;
 use App\Http\Resources\ArticleBlockResource;
 use App\Http\Resources\ArticleListResource;
 use App\Http\Resources\ArticleSingleResource;
-use App\Http\Resources\CommentResource;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Enums\ArticleStatus;
@@ -21,7 +20,7 @@ class ArticleController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('can:create article')->except(['index', 'show', 'filter', 'like', 'search']);
+        $this->middleware('can:create article')->except(['index', 'show', 'filter', 'search']);
     }
 
     /**
@@ -36,7 +35,7 @@ class ArticleController extends Controller
             ->latest()
             ->paginate(9);
 
-        return inertia('Articles/Index', [
+        return inertia('articles/index', [
             'articles' => ArticleBlockResource::collection($articles)->additional([
                 'meta' => [
                     'has_pages' => $articles->hasPages(),
@@ -55,7 +54,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return inertia('Articles/Form', [
+        return inertia('articles/form', [
             'article' => new Article,
             'statuses' => collect(ArticleStatus::cases())->map(fn ($status) => [
                 'value' => $status->value,
@@ -105,14 +104,8 @@ class ArticleController extends Controller
         $this->authorize('view', $article);
         $article->visit()->hourlyIntervals()->withIp()->withSession()->withUser();
 
-        return inertia('Articles/Show', [
-            'article' => new ArticleSingleResource($article->loadCount('likes')->load('author', 'category')),
-            'comments' => CommentResource::collection(
-                $article->comments()
-                    ->withCount(['children', 'likes'])->where('parent_id', null)
-                    ->where('spam_reports', '<>', 10)
-                    ->get(),
-            ),
+        return inertia('articles/show', [
+            'article' => new ArticleSingleResource($article->load('author', 'category')),
         ]);
     }
 
@@ -123,7 +116,7 @@ class ArticleController extends Controller
     {
         $this->authorize('update', $article);
 
-        return inertia('Articles/Form', [
+        return inertia('articles/form', [
             'article' => $article,
             'statuses' => collect(ArticleStatus::cases())->map(fn ($status) => [
                 'value' => $status->value,
@@ -204,28 +197,6 @@ class ArticleController extends Controller
         return back();
     }
 
-    public function like(Request $request, Article $article)
-    {
-        if ($request->user()) {
-            $like = $article->likes()->where('user_id', $request->user()->id)->first();
-
-            if ($like) {
-                $like->delete();
-            } else {
-                $article->likes()->create(['user_id' => $request->user()->id]);
-            }
-        } else {
-            // flash message
-            flashMessage(
-                'Failed',
-                'You need to login to like this article.',
-                'warning',
-            );
-        }
-
-        return back();
-    }
-
     public function search(Request $request)
     {
         $articles = Article::query()
@@ -236,7 +207,7 @@ class ArticleController extends Controller
             ->latest()
             ->paginate(9);
 
-        return inertia('Articles/Index', [
+        return inertia('articles/index', [
             'articles' => fn () => ArticleBlockResource::collection($articles)->additional([
                 'meta' => [
                     'has_pages' => $articles->hasPages(),
@@ -248,7 +219,6 @@ class ArticleController extends Controller
                 'subtitle' => 'You are searching for: "' . $request->search . '" return ' . $articles->count() . ' ' . str()->plural('result', $articles->count()) . '.',
             ],
         ]);
-
     }
 
     /*
@@ -259,14 +229,13 @@ class ArticleController extends Controller
         $only = ['search', 'status', 'category'];
         $articles = Article::query()
             ->with('author', 'category')
-            ->withCount('comments')
-            ->when(! $request->user()->hasRole('admin'), fn ($query) => $query->whereBelongsTo($request->user(), 'author'))
+            ->when(!$request->user()->hasRole('admin'), fn ($query) => $query->whereBelongsTo($request->user(), 'author'))
             ->filter($request->only([...$only, 'user']))
             ->latest()
             ->paginate(12)
             ->withQueryString();
 
-        return inertia('Articles/List', [
+        return inertia('articles/list', [
             'filters' => [
                 'categories' => fn () => Category::select(['slug', 'name'])->get()->map(fn ($i) => [
                     'value' => $i->slug,
@@ -303,8 +272,6 @@ class ArticleController extends Controller
             'week' => $articles = Article::query()->with('author', 'category')->popularThisWeek()->paginate(9),
             'month' => $articles = Article::query()->with('author', 'category')->popularThisMonth()->paginate(9),
             'year' => $articles = Article::query()->with('author', 'category')->popularThisYear()->paginate(9),
-            'trending' => $articles = Article::query()->with('author', 'category')->trending()->paginate(9),
-            'most-likes' => $articles = Article::query()->with('author', 'category')->mostLikes()->paginate(9),
             'all-time' => $articles = Article::query()->with('author', 'category')->popularAllTime()->paginate(9),
             default => abort(404),
         };
@@ -322,21 +289,13 @@ class ArticleController extends Controller
                 'title' => 'Popular This Year',
                 'subtitle' => 'The most popular articles this year.',
             ],
-            'trending' => [
-                'title' => 'Trending Articles',
-                'subtitle' => 'The most trending articles.',
-            ],
-            'most-likes' => [
-                'title' => 'Most Likes Article',
-                'subtitle' => 'The most likes articles.',
-            ],
             'all-time' => [
                 'title' => 'Popular All Time',
                 'subtitle' => 'The most popular articles of all time.',
             ],
         };
 
-        return inertia('Articles/Index', [
+        return inertia('articles/index', [
             'articles' => ArticleBlockResource::collection($articles),
             'params' => $params,
         ]);

@@ -15,8 +15,8 @@ class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
-    use Notifiable;
     use HasRoles;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -52,21 +52,6 @@ class User extends Authenticatable
     public function gravatar($size = 150): string
     {
         return 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email))) . '?s=' . $size . '&d=mp';
-    }
-
-    public function comments(): HasMany
-    {
-        return $this->hasMany(Comment::class, 'author_id');
-    }
-
-    public function reports(): BelongsToMany
-    {
-        return $this->belongsToMany(Comment::class, 'spam_comments')->withTimestamps();
-    }
-
-    public function hasReportedComment(Comment $comment): bool
-    {
-        return $this->reports()->where('comment_id', $comment->id)->exists();
     }
 
     public function articles(): HasMany
